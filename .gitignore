@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.svelte-kit/
+.vercel/
+.netlify/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
