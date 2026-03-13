@@ -142,13 +142,13 @@ export default function FloatingElements() {
   return (
     <group>
       {/* Picture frame — right side, floating */}
-      <PictureFrame position={[1.42, 1.85, -0.9]} />
+      <PictureFrame position={[1.5, 1.9, -0.6]} />
 
-      {/* Chat bubble — left of cork board */}
-      <ChatBubble position={[-0.72, 1.95, -1.1]} color="#bfdbfe" />
+      {/* Chat bubble — above left shoulder */}
+      <ChatBubble position={[-0.8, 2.1, 0.4]} color="#bfdbfe" />
 
-      {/* Floating code tag — above desk */}
-      <CodeTag position={[1.05, 1.82, -0.4]} />
+      {/* Floating code tag — upper right */}
+      <CodeTag position={[1.2, 2.0, 0.2]} />
     </group>
   )
 }

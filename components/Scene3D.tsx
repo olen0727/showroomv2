@@ -6,61 +6,63 @@ import { OrbitControls, Environment, ContactShadows } from '@react-three/drei'
 import CharacterModel from './CharacterModel'
 import DeskRoom from './DeskRoom'
 import FloatingElements from './FloatingElements'
+import HeroText3D from './HeroText3D'
 
 export default function Scene3D() {
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <Canvas
-        camera={{ position: [5.5, 4.5, 6.5], fov: 42 }}
+        /*
+         * Front-facing camera: character faces +Z, camera sits at +Z looking in -Z.
+         * Slightly elevated (y=2.4) so we see the desk behind the character.
+         * FOV 50 gives a natural portrait-like framing.
+         */
+        camera={{ position: [0, 2.4, 7.5], fov: 40 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
         shadows
       >
         {/* Lighting */}
-        <ambientLight intensity={0.6} />
+        <ambientLight intensity={0.7} />
         <directionalLight
-          position={[8, 10, 6]}
-          intensity={1.4}
+          position={[3, 8, 6]}
+          intensity={1.6}
           castShadow
           shadow-mapSize={[1024, 1024]}
         />
-        <directionalLight position={[-4, 4, -4]} intensity={0.4} color="#ffe8cc" />
-        <pointLight position={[0, 2, -0.5]} intensity={0.6} color="#88aaff" />
+        <directionalLight position={[-3, 4, 4]} intensity={0.5} color="#ffe8cc" />
+        {/* Screen glow from monitors behind character */}
+        <pointLight position={[0, 1.1, -0.7]} intensity={0.8} color="#88aaff" />
 
         <Suspense fallback={null}>
-          {/* Ground shadow */}
           <ContactShadows
             position={[0, -0.01, 0]}
-            opacity={0.3}
-            scale={8}
-            blur={2.5}
+            opacity={0.25}
+            scale={10}
+            blur={2.0}
             far={4}
             color="#3b2800"
           />
 
-          {/* Room furniture */}
+          {/* Floating hero text — left side */}
+          <HeroText3D />
+
           <DeskRoom />
-
-          {/* Character model at the desk */}
           <CharacterModel />
-
-          {/* Floating decorative elements */}
           <FloatingElements />
 
           <Environment preset="apartment" />
         </Suspense>
 
-        {/* Subtle orbit — limited so the scene stays composed */}
         <OrbitControls
           enableZoom={false}
           enablePan={false}
-          minPolarAngle={Math.PI / 5}
-          maxPolarAngle={Math.PI / 2.2}
-          minAzimuthAngle={-Math.PI / 6}
-          maxAzimuthAngle={Math.PI / 6}
-          rotateSpeed={0.4}
-          autoRotate={false}
-          target={[0, 0.8, 0]}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 2.1}
+          minAzimuthAngle={-Math.PI / 5}
+          maxAzimuthAngle={Math.PI / 5}
+          rotateSpeed={0.35}
+          target={[0, 1.2, 0]}
         />
       </Canvas>
     </div>
