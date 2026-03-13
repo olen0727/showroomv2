@@ -5,17 +5,17 @@ import { useTransformStore, TransformProvider, TransformEditorUI, useTransform }
 
 /* ── colour palette ── */
 const C = {
-  floor:     '#ede5d8',
-  rug1:      '#f97316',
-  rug2:      '#fbbf24',
-  rug3:      '#fde68a',
-  desk:      '#ffffff',
-  deskLeg:   '#d4c5b0',
-  monitor:   '#1a1a1a',
-  screen:    '#0f172a',
-  chair:     '#2a2a2a',
-  plant:     '#22c55e',
-  plantPot:  '#c47c5a',
+  floor: '#ede5d8',
+  rug1: '#f97316',
+  rug2: '#fbbf24',
+  rug3: '#fde68a',
+  desk: '#ffffff',
+  deskLeg: '#d4c5b0',
+  monitor: '#1a1a1a',
+  screen: '#0f172a',
+  chair: '#2a2a2a',
+  plant: '#22c55e',
+  plantPot: '#c47c5a',
   pencilCup: '#e2e8f0',
 }
 
@@ -52,9 +52,9 @@ function Desk() {
   const legR = 0.04
   const legs: [number, number, number][] = [
     [-0.75, legH / 2, -0.28],
-    [ 0.75, legH / 2, -0.28],
-    [-0.75, legH / 2,  0.28],
-    [ 0.75, legH / 2,  0.28],
+    [0.75, legH / 2, -0.28],
+    [-0.75, legH / 2, 0.28],
+    [0.75, legH / 2, 0.28],
   ]
   return (
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
@@ -206,7 +206,7 @@ export default function DeskRoom() {
     Floor: { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
     Rug: { position: [0, 0, -0.4], rotation: [0, 0, 0], scale: [1, 1, 1] },
     Chair: { position: [0, 0, -0.3], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    Desk: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
+    Desk: { position: [0, 0, 2.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
     Monitors: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
     CornerPlant: { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] }
   })
