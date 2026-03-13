@@ -1,6 +1,7 @@
 'use client'
 
 import * as THREE from 'three'
+import React, { useMemo } from 'react'
 import { useTransformStore, TransformProvider, TransformEditorUI, useTransform } from './TransformEditor'
 
 /* ── colour palette ── */
@@ -201,6 +202,85 @@ function CornerPlant() {
   )
 }
 
+/* ── Bookcase (深色木頭多層書櫃) ── */
+function ShelfBooks({ y, width, depth }: { y: number, width: number, depth: number }) {
+  const books = useMemo(() => {
+    const arr = []
+    let currentX = -width / 2 + 0.05
+    const colors = ['#8d5b4c', '#5a6245', '#495267', '#8a4b46', '#c49a6c', '#606470', '#3e3e3e', '#b08b6b', '#9c3d3a', '#2c3e50']
+    
+    while (currentX < width / 2 - 0.1) {
+      if (Math.random() > 0.85) {
+        currentX += Math.random() * 0.1 + 0.05
+        continue
+      }
+      const thickness = Math.random() * 0.03 + 0.02
+      const height = Math.random() * 0.12 + 0.18
+      const col = colors[Math.floor(Math.random() * colors.length)]
+      
+      let rotZ = 0
+      if (Math.random() > 0.9) {
+        rotZ = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.15 + 0.05)
+        currentX += 0.04
+      }
+      arr.push({ pos: [currentX + thickness / 2, height / 2, 0] as [number, number, number], scale: [thickness, height, depth * 0.8] as [number, number, number], color: col, rotZ })
+      currentX += thickness + 0.005
+    }
+    return arr
+  }, [width, depth])
+
+  return (
+    <group position={[0, y, 0]}>
+      {books.map((b, i) => (
+        <mesh key={i} position={b.pos} rotation={[0, 0, b.rotZ]} castShadow receiveShadow>
+          <boxGeometry args={b.scale} />
+          <meshStandardMaterial color={b.color} />
+        </mesh>
+      ))}
+      {/* 隨機加入一顆裝飾球或小擺件 */}
+      {Math.random() > 0.75 && (
+        <mesh position={[width / 2 - 0.15, 0.08, 0.05]} castShadow>
+          <sphereGeometry args={[0.06, 16, 16]} />
+          <meshStandardMaterial color="#94a3b8" metalness={0.5} roughness={0.2} />
+        </mesh>
+      )}
+    </group>
+  )
+}
+
+function Bookcase() {
+  const t = useTransform('Bookcase', { position: [-1.6, 0, -0.5], rotation: [0, Math.PI / 6, 0], scale: [1, 1, 1] })
+  const W = 1.2
+  const H = 2.2
+  const D = 0.35
+  const T = 0.04 // 木板厚度
+  const color = '#241f1c' // 深木色
+  
+  // y座標: 各層高度
+  const shelvesY = [0.02, 0.38, 0.74, 1.10, 1.46, 1.82]
+
+  return (
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
+      {/* 左右側板 */}
+      <Box position={[-W / 2 + T / 2, H / 2, 0]} scale={[T, H, D]} color={color} castShadow receiveShadow />
+      <Box position={[W / 2 - T / 2, H / 2, 0]} scale={[T, H, D]} color={color} castShadow receiveShadow />
+      {/* 背板 */}
+      <Box position={[0, H / 2, -D / 2 + T / 2]} scale={[W, H, T]} color={color} receiveShadow />
+      {/* 頂部線板 */}
+      <Box position={[0, H - T / 2, 0]} scale={[W, T, D]} color={color} castShadow receiveShadow />
+      <Box position={[0, H + 0.02, 0]} scale={[W + 0.06, 0.04, D + 0.04]} color={color} castShadow receiveShadow />
+
+      {/* 層板與書本 */}
+      {shelvesY.map((y, i) => (
+        <group key={i}>
+          <Box position={[0, y, 0]} scale={[W - T * 2, T, D - 0.02]} color={color} castShadow receiveShadow />
+          {i < shelvesY.length && <ShelfBooks y={y + T / 2} width={W - T * 2} depth={D - 0.04} />}
+        </group>
+      ))}
+    </group>
+  )
+}
+
 export default function DeskRoom() {
   const store = useTransformStore({
     Floor: { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
@@ -208,7 +288,8 @@ export default function DeskRoom() {
     Chair: { position: [0, 0, -0.3], rotation: [0, 0, 0], scale: [1, 1, 1] },
     Desk: { position: [0, 0, 2.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
     Monitors: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    CornerPlant: { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] }
+    CornerPlant: { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] },
+    Bookcase: { position: [-1.6, 0, -0.5], rotation: [0, Math.PI / 6, 0], scale: [1, 1, 1] }
   })
 
   // 設定 ENABLE_EDITOR = false 即可關閉此介面
@@ -223,6 +304,7 @@ export default function DeskRoom() {
         <Desk />
         <Monitors />
         <CornerPlant />
+        <Bookcase />
         <TransformEditorUI enabled={ENABLE_EDITOR} />
       </group>
     </TransformProvider>
