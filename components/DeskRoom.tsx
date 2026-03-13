@@ -1,6 +1,7 @@
 'use client'
 
 import * as THREE from 'three'
+import { useTransformStore, TransformProvider, TransformEditorUI, useTransform } from './TransformEditor'
 
 /* ── colour palette ── */
 const C = {
@@ -46,6 +47,7 @@ function Box({
 
 /* ── desk ── */
 function Desk() {
+  const t = useTransform('Desk', { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] })
   const legH = 0.62
   const legR = 0.04
   const legs: [number, number, number][] = [
@@ -55,7 +57,7 @@ function Desk() {
     [ 0.75, legH / 2,  0.28],
   ]
   return (
-    <group position={[0, 0, -0.9]}>
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
       {/* surface */}
       <Box position={[0, legH + 0.03, 0]} scale={[1.8, 0.06, 0.7]} color={C.desk} castShadow />
       {legs.map((p, i) => (
@@ -77,8 +79,9 @@ function Desk() {
 
 /* ── two monitors behind/above the character ── */
 function Monitors() {
+  const t = useTransform('Monitors', { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] })
   return (
-    <group position={[0, 0, -0.9]}>
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
       {/* left monitor */}
       <group position={[-0.42, 1.14, -0.05]}>
         <Box position={[0, 0, 0]} scale={[0.56, 0.36, 0.04]} color={C.monitor} castShadow />
@@ -118,8 +121,9 @@ function Monitors() {
 
 /* ── chair — seat faces +Z (same as character) ── */
 function Chair() {
+  const t = useTransform('Chair', { position: [0, 0, -0.3], rotation: [0, 0, 0], scale: [1, 1, 1] })
   return (
-    <group position={[0, 0, -0.3]}>
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
       {/* seat */}
       <Box position={[0, 0.38, 0]} scale={[0.52, 0.06, 0.50]} color={C.chair} castShadow />
       {/* back rest */}
@@ -145,13 +149,14 @@ function Chair() {
 
 /* ── striped rug ── */
 function Rug() {
+  const t = useTransform('Rug', { position: [0, 0, -0.4], rotation: [0, 0, 0], scale: [1, 1, 1] })
   const stripes = [
     { scale: [2.0, 0.005, 2.0] as [number, number, number], color: C.rug1 },
     { scale: [1.6, 0.006, 1.6] as [number, number, number], color: C.rug2 },
     { scale: [1.2, 0.007, 1.2] as [number, number, number], color: C.rug3 },
   ]
   return (
-    <group position={[0, 0, -0.4]}>
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
       {stripes.map(({ scale, color }, i) => (
         <mesh key={i} position={[0, i * 0.001, 0]} receiveShadow>
           <boxGeometry args={scale} />
@@ -164,8 +169,9 @@ function Rug() {
 
 /* ── floor only (no walls) ── */
 function Floor() {
+  const t = useTransform('Floor', { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] })
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.002, 0]} receiveShadow>
+    <mesh rotation={t.rotation} position={t.position} scale={t.scale} receiveShadow>
       <planeGeometry args={[20, 20]} />
       <meshStandardMaterial color={C.floor} />
     </mesh>
@@ -174,8 +180,9 @@ function Floor() {
 
 /* ── corner plant (right side) ── */
 function CornerPlant() {
+  const t = useTransform('CornerPlant', { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] })
   return (
-    <group position={[1.4, 0, 0.5]}>
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
       <mesh>
         <cylinderGeometry args={[0.13, 0.10, 0.22, 14]} />
         <meshStandardMaterial color={C.plantPot} />
@@ -195,14 +202,29 @@ function CornerPlant() {
 }
 
 export default function DeskRoom() {
+  const store = useTransformStore({
+    Floor: { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
+    Rug: { position: [0, 0, -0.4], rotation: [0, 0, 0], scale: [1, 1, 1] },
+    Chair: { position: [0, 0, -0.3], rotation: [0, 0, 0], scale: [1, 1, 1] },
+    Desk: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
+    Monitors: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
+    CornerPlant: { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] }
+  })
+
+  // 設定 ENABLE_EDITOR = false 即可關閉此介面
+  const ENABLE_EDITOR = true
+
   return (
-    <group>
-      <Floor />
-      <Rug />
-      <Chair />
-      <Desk />
-      <Monitors />
-      <CornerPlant />
-    </group>
+    <TransformProvider value={store}>
+      <group>
+        <Floor />
+        <Rug />
+        <Chair />
+        <Desk />
+        <Monitors />
+        <CornerPlant />
+        <TransformEditorUI enabled={ENABLE_EDITOR} />
+      </group>
+    </TransformProvider>
   )
 }
