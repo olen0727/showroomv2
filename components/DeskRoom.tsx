@@ -281,6 +281,72 @@ function Bookcase() {
   )
 }
 
+/* ── CoffeeTable (深色茶几與攤開的書) ── */
+function OpenBook({ position }: { position: [number, number, number] }) {
+  const pageColor = '#f5eedc'
+  const coverColor = '#6b442a'
+  const W = 0.28 // 單邊頁面寬度
+  const H = 0.35 // 書本高度(深度)
+  const T = 0.03  // 書本厚度
+  const angle = 0.15 // 頁面微翹的角度
+
+  return (
+    <group position={position} rotation={[0, -0.2, 0]}>
+      {/* 底部書皮 */}
+      <Box position={[0, -0.015, 0]} scale={[W * 2 + 0.04, 0.01, H + 0.02]} color={coverColor} castShadow />
+      
+      {/* 左半邊書面 */}
+      <group position={[-0.01, 0, 0]} rotation={[0, 0, angle]}>
+        <Box position={[-W / 2, 0, 0]} scale={[W, T, H]} color={pageColor} castShadow receiveShadow />
+      </group>
+      
+      {/* 右半邊書面 */}
+      <group position={[0.01, 0, 0]} rotation={[0, 0, -angle]}>
+        <Box position={[W / 2, 0, 0]} scale={[W, T, H]} color={pageColor} castShadow receiveShadow />
+      </group>
+      
+      {/* 書脊中間的凹陷黑線裝飾 */}
+      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.015, 0.015, H, 8, 1, false, 0, Math.PI]} />
+        <meshStandardMaterial color={pageColor} />
+      </mesh>
+    </group>
+  )
+}
+
+function CoffeeTable() {
+  const t = useTransform('CoffeeTable', { position: [-1.2, 0, 1.2], rotation: [0, 0.5, 0], scale: [1, 1, 1] })
+  
+  const W = 1.3  // 桌面寬
+  const H = 0.45 // 桌高
+  const D = 0.7  // 桌面深
+  const legT = 0.06 // 桌腳粗細
+  const boardT = 0.04 // 桌面厚度
+  const color = '#3c2f29' // 黑褐色木紋
+  
+  return (
+    <group position={t.position} rotation={t.rotation} scale={t.scale}>
+      {/* 桌面 */}
+      <Box position={[0, H - boardT / 2, 0]} scale={[W, boardT, D]} color={color} castShadow receiveShadow />
+      
+      {/* 四支桌腳外框 */}
+      <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      <Box position={[ W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2,  D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      <Box position={[ W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2,  D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      
+      {/* 周圍的側邊封口擋板 (類似圖片中深邃的箱體設計) */}
+      <Box position={[0, H / 2, -D / 2 + legT / 2 + 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
+      <Box position={[0, H / 2,  D / 2 - legT / 2 - 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
+      <Box position={[-W / 2 + legT / 2 + 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
+      <Box position={[ W / 2 - legT / 2 - 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
+
+      {/* 攤開的書籍放桌上 */}
+      <OpenBook position={[0.1, H + 0.015, -0.05]} />
+    </group>
+  )
+}
+
 export default function DeskRoom() {
   const store = useTransformStore({
     Floor: { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
@@ -289,7 +355,8 @@ export default function DeskRoom() {
     Desk: { position: [0, 0, 2.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
     Monitors: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
     CornerPlant: { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    Bookcase: { position: [-1.6, 0, -0.5], rotation: [0, Math.PI / 6, 0], scale: [1, 1, 1] }
+    Bookcase: { position: [-1.6, 0, -0.5], rotation: [0, Math.PI / 6, 0], scale: [1, 1, 1] },
+    CoffeeTable: { position: [-1.2, 0, 1.2], rotation: [0, 0.5, 0], scale: [1, 1, 1] }
   })
 
   // 設定 ENABLE_EDITOR = false 即可關閉此介面
@@ -305,6 +372,7 @@ export default function DeskRoom() {
         <Monitors />
         <CornerPlant />
         <Bookcase />
+        <CoffeeTable />
         <TransformEditorUI enabled={ENABLE_EDITOR} />
       </group>
     </TransformProvider>
