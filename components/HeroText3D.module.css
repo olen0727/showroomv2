@@ -1,0 +1,38 @@
+/* components/HeroText3D.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 420px;
+}
+
+.name {
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: #1a1a1a;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+
+.badge {
+  display: inline-flex;
+  align-self: flex-start;
+  background: #1e3a8a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 8px 18px;
+  border-radius: 5px;
+}
+
+.tagline {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #5a5a5a;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}

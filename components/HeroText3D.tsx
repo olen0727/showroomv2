@@ -4,6 +4,7 @@ import { Html } from '@react-three/drei'
 import { useEffect, useRef } from 'react'
 import { Group } from 'three'
 import { gsap } from 'gsap'
+import styles from './HeroText3D.module.css'
 
 /*
  * Text rendered as HTML inside 3D world-space.
@@ -55,21 +56,21 @@ export default function HeroText3D() {
         style={{ pointerEvents: 'none', userSelect: 'none' }}
         zIndexRange={[10, 20]}
       >
-        <div ref={wrapRef} style={styles.container}>
+        <div ref={wrapRef} className={styles.container}>
           {/* Name */}
-          <h1 style={{ ...styles.name, opacity: 0 }} data-in>
+          <h1 className={styles.name} style={{ opacity: 0 }} data-in>
             Your
             <br />
             Name
           </h1>
 
           {/* Badge */}
-          <div style={{ ...styles.badge, opacity: 0 }} data-in>
+          <div className={styles.badge} style={{ opacity: 0 }} data-in>
             FULL STACK DEVELOPER
           </div>
 
           {/* Tagline */}
-          <p style={{ ...styles.tagline, opacity: 0 }} data-in>
+          <p className={styles.tagline} style={{ opacity: 0 }} data-in>
             Building immersive experiences
             <br />
             with Three.js · GSAP · Next.js
@@ -80,39 +81,3 @@ export default function HeroText3D() {
   )
 }
 
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '14px',
-    width: '420px',
-  },
-  name: {
-    fontSize: '80px',
-    fontWeight: 900,
-    lineHeight: 1.0,
-    letterSpacing: '-0.03em',
-    color: '#1a1a1a',
-    margin: 0,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-    textShadow: '0 2px 20px rgba(0,0,0,0.06)',
-  },
-  badge: {
-    display: 'inline-flex',
-    alignSelf: 'flex-start',
-    background: '#1e3a8a',
-    color: '#fff',
-    fontSize: '14px',
-    fontWeight: 700,
-    letterSpacing: '0.14em',
-    padding: '8px 18px',
-    borderRadius: '5px',
-  },
-  tagline: {
-    fontSize: '15px',
-    lineHeight: 1.75,
-    color: '#5a5a5a',
-    margin: 0,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-  },
-}

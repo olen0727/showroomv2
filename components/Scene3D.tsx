@@ -7,10 +7,11 @@ import CharacterModel from './CharacterModel'
 import DeskRoom from './DeskRoom'
 import FloatingElements from './FloatingElements'
 import HeroText3D from './HeroText3D'
+import styles from './Scene3D.module.css'
 
 export default function Scene3D() {
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div className={styles.container}>
       <Canvas
         /*
          * Front-facing camera: character faces +Z, camera sits at +Z looking in -Z.
@@ -19,7 +20,7 @@ export default function Scene3D() {
          */
         camera={{ position: [0, 2.4, 7.5], fov: 40 }}
         gl={{ antialias: true, alpha: true }}
-        style={{ background: 'transparent' }}
+        className={styles.canvas}
         shadows
       >
         {/* Lighting */}

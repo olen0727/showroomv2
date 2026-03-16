@@ -1,0 +1,74 @@
+/* components/Navbar.module.css */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 48px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.linkGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.55);
+  border-radius: 9999px;
+  padding: 8px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.navLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #1a1a1a;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: absolute;
+  right: 48px;
+}
+
+.ctaButton {
+  background: #f97316;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+
+.muteBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.12);
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
