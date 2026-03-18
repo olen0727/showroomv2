@@ -3,7 +3,7 @@
 > **Project:** showroom2
 > **Repository:** d:\@GitHubProject\showroom2
 > **Stack:** Next.js 16 · React 19 · Three.js 0.183 · @react-three/fiber · @react-three/drei · GSAP 3
-> **Last Updated:** 2026-03-04
+> **Last Updated:** 2026-03-18
 > **Purpose:** 求職用互動式 3D 作品集網站
 
 ---
@@ -21,11 +21,13 @@ showroom2/
 ├── components/                   # 所有 React 元件
 │   ├── Navbar.tsx                # 頂部導覽列
 │   ├── HeroSection.tsx           # Hero 版面容器
-│   ├── Scene3D.tsx               # R3F Canvas 根元件
+│   ├── Scene3D.tsx               # R3F Canvas 根元件（含 ScrollControls）
 │   ├── HeroText3D.tsx            # 3D 場景內的浮動文字
-│   ├── CharacterModel.tsx        # GLB 人物模型載入與動畫
+│   ├── CharacterModel.tsx        # GLB 人物模型載入與動畫（含捲動狀態機）
 │   ├── DeskRoom.tsx              # 桌椅、螢幕、地毯等場景幾何
-│   └── FloatingElements.tsx      # 漂浮裝飾物件（相框、對話泡泡、程式碼標籤）
+│   ├── FloatingElements.tsx      # 漂浮裝飾物件（相框、對話泡泡、程式碼標籤）
+│   ├── RoleCards.tsx             # 三個職能卡片（隨捲動輪替前景/背景）
+│   └── RoleCards.module.css      # 職能卡片 Glassmorphism 樣式
 │
 ├── public/
 │   └── models/                   # 靜態 3D 模型（由 Next.js 直接伺服）
@@ -59,17 +61,22 @@ showroom2/
                 │
                 └── Scene3D.tsx  [Client-only, dynamic import SSR=false]
                       │
-                      ├── R3F Canvas  camera [0, 2.4, 7.5] fov=50
+                      ├── R3F Canvas  camera [0, 2.4, 7.5] fov=40
                       │     │
                       │     ├── Lights         ambient / directional / point
                       │     ├── ContactShadows 地面陰影
                       │     ├── Environment    preset="apartment" HDRI
                       │     ├── OrbitControls  限制角度、無縮放/平移
                       │     │
-                      │     ├── HeroText3D     Html overlay（distanceFactor=6）
-                      │     ├── DeskRoom       純 Three.js 幾何
-                      │     ├── CharacterModel useGLTF + useAnimations
-                      │     └── FloatingElements GSAP 動畫物件
+                      │     └── ScrollControls pages=4, damping=0.2
+                      │           │
+                      │           ├── DisappearingBackground  ← 捲動時向後/上方退場
+                      │           │     ├── HeroText3D     Html overlay
+                      │           │     ├── DeskRoom       純 Three.js 幾何
+                      │           │     └── FloatingElements GSAP 動畫物件
+                      │           │
+                      │           ├── CharacterModel  坐→站→走 狀態機
+                      │           └── RoleCards        3 張 Glassmorphism 卡片輪替
                       │
                       └── [WebGL → GPU]
 ```
@@ -126,12 +133,15 @@ showroom2/
 
 ### `components/Scene3D.tsx`
 - **用途：** R3F Canvas 根元件，管理整個 3D 場景
-- **技術：** `@react-three/fiber` Canvas、`@react-three/drei`
+- **技術：** `@react-three/fiber` Canvas、`@react-three/drei`（`ScrollControls`、`useScroll`）
 - **相機設定：**
   ```
   position: [0, 2.4, 7.5]   前方正面視角，略微俯視
-  fov: 50                    自然透視感
+  fov: 40                    自然透視感
   ```
+- **捲動系統：**
+  - `<ScrollControls pages={4} damping={0.2}>` 接管頁面滾動，產生 4 個 viewport 的滾動距離
+  - **`DisappearingBackground`**（內部元件）：包裹 `HeroText3D`、`DeskRoom`、`FloatingElements`，以 `useFrame` 讀取 `scroll.range(0, 0.2)`，在捲動初始 20% 期間將整組物件向上 (`y+3`)、向後 (`z-10`) 推移並縮小至 0.05 倍，產生「場景散開消失」的效果
 - **光源：**
   | 光源 | 位置 | 用途 |
   |------|------|------|
@@ -140,7 +150,7 @@ showroom2/
   | DirectionalLight 0.5 | [-3, 4, 4] | 暖色補光 `#ffe8cc` |
   | PointLight 0.8 | [0, 1.1, -0.7] | 螢幕藍光 `#88aaff` |
 - **其他：** ContactShadows、Environment preset="apartment"、OrbitControls（限制旋轉角度）
-- **子元件順序：** HeroText3D → DeskRoom → CharacterModel → FloatingElements
+- **子元件順序：** DisappearingBackground(HeroText3D / DeskRoom / FloatingElements) → CharacterModel → RoleCards
 
 ---
 
@@ -159,15 +169,21 @@ showroom2/
 ---
 
 ### `components/CharacterModel.tsx`
-- **用途：** 載入並播放 GLB 人物模型
-- **技術：** `useGLTF`（含 preload）、`useAnimations`、GSAP
+- **用途：** 載入並播放 GLB 人物模型，隨捲動切換動作
+- **技術：** `useGLTF`（含 preload）、`useAnimations`、`useScroll`、`useFrame`、GSAP
 - **使用模型：** `public/models/meshy.glb`（Meshy AI，含 3 個動畫）
-- **動畫邏輯：**
+- **動畫狀態機（基於捲動進度）：**
   ```
-  "Sit_to_standTransition_Female_2"
-    timeScale = -1  →  從站立反向播放到坐姿
-    clampWhenFinished = true  →  保持坐姿定格
+  entrance  →  sitting  →  standing_up  →  walking
+               ↑                                │
+               └── offset < 0.02 反向坐下 ───────┘
   ```
+  | State | 觸發條件 | 實作 |
+  |-------|----------|------|
+  | `entrance` | 頁面初載 | `Sit_to_standTransition` 反向播放（站→坐），`clampWhenFinished` 定格 |
+  | `sitting` | 反向播完 / 滾回 | 坐姿定格 + GSAP idle float |
+  | `standing_up` | `scroll.offset > 0.05` | `Sit_to_standTransition` 正向播放（坐→站）|
+  | `walking` | 起立動畫播完 | 切換為 `Walking` 動畫循環，角色微往前移動 (`z+0.5`) |
 - **GSAP 入場：** 從 `y=3` 落下至 `y=0`（`power3.out`，0.5s delay）
 - **Idle：** 坐定後輕微上下漂浮（`y: 0 → 0.05`，2.6s sine loop）
 - **材質：** 遍歷場景，所有 `Mesh` 啟用 `castShadow`、`receiveShadow`、`DoubleSide`
@@ -214,6 +230,27 @@ showroom2/
   delay 1.6s → ChatBubble 彈出
   delay 1.8s → CodeTag 升起
   ```
+
+---
+
+### `components/RoleCards.tsx`
+- **用途：** 三個職能角色卡片（FullStack Web Develop / UX Strategist / Product Manager），隨捲動 Carousel 輪替
+- **技術：** `@react-three/drei` Html（`transform`）、`useScroll`、`useFrame`
+- **卡片資料：**
+  | 卡片 | 標題 | 副標 | 邊框色 |
+  |------|------|------|--------|
+  | 0 | FullStack Web Develop | 零溝通摩擦的跨域效率建築師 | 藍 `#3b82f6` |
+  | 1 | UX Strategist | 以同理心洞察需求的產品策略師 | 橘 `#f97316` |
+  | 2 | Product Manager | 精準優先級管理及決策的專案舵手 | 綠 `#22c55a` |
+- **輪替演算法：**
+  - 每張卡片有一個「中心進度點」（`0.35`, `0.65`, `0.95`），當 `scroll.offset` 接近該值時，卡片置中 (`x=0`, `z` 靠前)，透明度趨近 1
+  - 偏離中心時，卡片以 `sin/cos` 推向左右兩側並退後，透明度遞減，產生 3D Carousel 效果
+  - `scroll.offset < 0.18` 時所有卡片隱藏於下方 (`y=-4`)
+  - 位置透過 `THREE.MathUtils.lerp` 逐幀平滑插值
+- **樣式（`RoleCards.module.css`）：**
+  - Glassmorphism：`rgba(20,20,20,0.65)` 背景 + `backdrop-filter: blur(16px)`
+  - 各卡片有獨立的彩色邊框與 box-shadow
+  - Tags 水平排列的藥丸標籤
 
 ---
 
@@ -298,8 +335,8 @@ public/models/*.glb → 實際伺服的模型（部署用）
 |------|------|------|
 | 高 | 補充個人資訊 | 將 `HeroText3D` 的姓名 / 職稱換成真實內容 |
 | 高 | About / Projects / Contact 頁面 | 目前 Navbar 連結無對應 section |
-| 中 | 坐姿 Idle 動畫 | 從 Mixamo 下載 "Sitting Idle" GLB 取代骨骼反向播放 |
-| 中 | 響應式設計 | 目前僅針對桌機設計，需處理手機版 |
+| 中 | 捲動動畫微調 | 調整 ScrollControls 的 pages 和 damping，以及卡片輪替的中心進度點 |
+| 中 | 響應式設計 | 目前僅針對桌機設計，需處理手機版（含 touch scroll 與卡片尺寸） |
 | 中 | 字型優化 | 引入 Google Fonts（Inter Black）取代系統字型 |
 | 低 | 音效系統 | Navbar 靜音按鈕目前無對應音效邏輯 |
 | 低 | 頁面過場動畫 | 路由切換時的 GSAP 過場 |
@@ -321,3 +358,6 @@ public/models/*.glb → 實際伺服的模型（部署用）
 | **clampWhenFinished** | AnimationAction 屬性，動畫播完後保持最後一幀 |
 | **SSR** | Server-Side Rendering — WebGL 不支援，Scene3D 以 `ssr: false` 繞過 |
 | **T-pose** | 角色模型預設站姿（雙臂水平展開），作為骨骼動畫的起始姿勢 |
+| **ScrollControls** | drei 的捲動控制元件，接管頁面滾動並映射為 0~1 的 offset 供 3D 動畫使用 |
+| **Glassmorphism** | 玻璃擬態設計風格，使用半透明背景 + `backdrop-filter: blur()` 製造磨砂玻璃質感 |
+| **Carousel** | 旋轉木馬式的輪播佈局，卡片在 3D 空間中輪流移至前景 |

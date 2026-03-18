@@ -211,7 +211,7 @@ function ShelfBooks({ y, width, depth }: { y: number, width: number, depth: numb
     const arr = []
     let currentX = -width / 2 + 0.05
     const colors = ['#8d5b4c', '#5a6245', '#495267', '#8a4b46', '#c49a6c', '#606470', '#3e3e3e', '#b08b6b', '#9c3d3a', '#2c3e50']
-    
+
     while (currentX < width / 2 - 0.1) {
       if (Math.random() > 0.85) {
         currentX += Math.random() * 0.1 + 0.05
@@ -220,7 +220,7 @@ function ShelfBooks({ y, width, depth }: { y: number, width: number, depth: numb
       const thickness = Math.random() * 0.03 + 0.02
       const height = Math.random() * 0.12 + 0.18
       const col = colors[Math.floor(Math.random() * colors.length)]
-      
+
       let rotZ = 0
       if (Math.random() > 0.9) {
         rotZ = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.15 + 0.05)
@@ -317,13 +317,13 @@ function CoffeeTable() {
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
       <Box position={[0, H - boardT / 2, 0]} scale={[W, boardT, D]} color={color} castShadow receiveShadow />
       <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
-      <Box position={[ W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
-      <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2,  D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
-      <Box position={[ W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2,  D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      <Box position={[W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2, D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
+      <Box position={[W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2, D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
       <Box position={[0, H / 2, -D / 2 + legT / 2 + 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
-      <Box position={[0, H / 2,  D / 2 - legT / 2 - 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
+      <Box position={[0, H / 2, D / 2 - legT / 2 - 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
       <Box position={[-W / 2 + legT / 2 + 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
-      <Box position={[ W / 2 - legT / 2 - 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
+      <Box position={[W / 2 - legT / 2 - 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
       <OpenBook position={[0.1, H + 0.015, -0.05]} />
     </group>
   )
@@ -346,7 +346,7 @@ export default function DeskRoom() {
     CoffeeTable: { position: [-1.2, 0, 1.2], rotation: [0, 0.5, 0], scale: [1, 1, 1] }
   })
 
-  const ENABLE_EDITOR = false
+  const ENABLE_EDITOR = true
   const groupRef = useRef<Group>(null)
   const scrollRef = useScrollProgress()
 
