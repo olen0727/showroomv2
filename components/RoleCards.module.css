@@ -1,0 +1,140 @@
+/* components/RoleCards.module.css */
+
+/* ── Overlay 容器（固定在視口中央） ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+/* ── 卡片 wrapper（絕對定位、居中對齊） ── */
+.cardWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  will-change: transform, opacity;
+  transition: none;
+}
+
+/* ── 卡片基礎樣式 ── */
+.cardFullstack,
+.cardUx,
+.cardPm {
+  width: 340px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── FullStack — 藍色調 ── */
+.cardFullstack {
+  background: linear-gradient(135deg,
+    rgba(30, 64, 175, 0.50) 0%,
+    rgba(37, 99, 235, 0.35) 50%,
+    rgba(59, 130, 246, 0.25) 100%
+  );
+  border: 1px solid rgba(96, 165, 250, 0.40);
+  box-shadow:
+    0 8px 32px rgba(30, 64, 175, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ── UX — 橙/金色調 ── */
+.cardUx {
+  background: linear-gradient(135deg,
+    rgba(180, 120, 40, 0.50) 0%,
+    rgba(217, 160, 60, 0.35) 50%,
+    rgba(251, 191, 36, 0.25) 100%
+  );
+  border: 1px solid rgba(251, 191, 36, 0.40);
+  box-shadow:
+    0 8px 32px rgba(180, 120, 40, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ── Product Manager — 綠色調 ── */
+.cardPm {
+  background: linear-gradient(135deg,
+    rgba(22, 101, 52, 0.50) 0%,
+    rgba(34, 197, 94, 0.30) 50%,
+    rgba(74, 222, 128, 0.20) 100%
+  );
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  box-shadow:
+    0 8px 32px rgba(22, 101, 52, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ── 標題 ── */
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ── 副標題 ── */
+.subtitle {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ── 標籤容器 ── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ── 標籤膠囊 ── */
+.tagFullstack {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  background: rgba(59, 130, 246, 0.35);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  color: #bfdbfe;
+}
+
+.tagUx {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  background: rgba(251, 191, 36, 0.30);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fef3c7;
+}
+
+.tagPm {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  background: rgba(34, 197, 94, 0.30);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #bbf7d0;
+}

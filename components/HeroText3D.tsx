@@ -1,55 +1,54 @@
 'use client'
 
 import { Html } from '@react-three/drei'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
 import { Group } from 'three'
-import { gsap } from 'gsap'
 import styles from './HeroText3D.module.css'
+import { useScrollProgress } from './ScrollProgressContext'
 
-/*
- * Text rendered as HTML inside 3D world-space.
- * Html with `transform` places the div in true perspective —
- * it scales and shifts as the camera rotates, giving the
- * "floating inside the scene" feel.
- *
- * distanceFactor keeps text readable at any zoom level.
+/**
+ * 3D 世界空間中的 HTML 文字
+ * 隨 scrollOffset 在 0.05~0.20 區間向左飄離並淡出。
  */
 export default function HeroText3D() {
   const groupRef = useRef<Group>(null)
   const wrapRef  = useRef<HTMLDivElement>(null)
+  const scrollRef = useScrollProgress()
 
-  useEffect(() => {
-    if (!wrapRef.current) return
-    const els = wrapRef.current.querySelectorAll<HTMLElement>('[data-in]')
+  // 初始位置
+  const baseX = -2.4
+  const baseY = 1.4
 
-    gsap.fromTo(
-      els,
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.9,
-        stagger: 0.14,
-        ease: 'power3.out',
-        delay: 0.6,
-      }
-    )
+  useFrame(() => {
+    if (!groupRef.current) return
+    const offset = scrollRef.current.offset
 
-    // Subtle vertical float
-    if (groupRef.current) {
-      gsap.to(groupRef.current.position, {
-        y: '+=0.08',
-        duration: 2.6,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: 2,
-      })
+    if (offset < 0.05) {
+      // 完全顯示
+      groupRef.current.visible = true
+      groupRef.current.position.x = baseX
+      groupRef.current.position.y = baseY
+      groupRef.current.scale.setScalar(1)
+      // HTML opacity
+      if (wrapRef.current) wrapRef.current.style.opacity = '1'
+    } else if (offset < 0.20) {
+      groupRef.current.visible = true
+      const t = (offset - 0.05) / 0.15 // 0 → 1
+      // 向左飄離
+      groupRef.current.position.x = baseX - t * 3
+      groupRef.current.position.y = baseY + t * 0.5
+      groupRef.current.scale.setScalar(Math.max(1 - t, 0))
+      // 淡出
+      if (wrapRef.current) wrapRef.current.style.opacity = String(Math.max(1 - t * 1.5, 0))
+    } else {
+      groupRef.current.visible = false
+      if (wrapRef.current) wrapRef.current.style.opacity = '0'
     }
-  }, [])
+  })
 
   return (
-    <group ref={groupRef} position={[-2.4, 1.4, 2.0]}>
+    <group ref={groupRef} position={[baseX, baseY, 2.0]}>
       <Html
         transform={false}
         distanceFactor={6}
@@ -57,20 +56,20 @@ export default function HeroText3D() {
         zIndexRange={[10, 20]}
       >
         <div ref={wrapRef} className={styles.container}>
-          {/* Name */}
-          <h1 className={styles.name} style={{ opacity: 0 }} data-in>
+          {/* 名稱 */}
+          <h1 className={styles.name}>
             Your
             <br />
             Name
           </h1>
 
-          {/* Badge */}
-          <div className={styles.badge} style={{ opacity: 0 }} data-in>
+          {/* 職稱標籤 */}
+          <div className={styles.badge}>
             FULL STACK DEVELOPER
           </div>
 
-          {/* Tagline */}
-          <p className={styles.tagline} style={{ opacity: 0 }} data-in>
+          {/* 標語 */}
+          <p className={styles.tagline}>
             Building immersive experiences
             <br />
             with Three.js · GSAP · Next.js
@@ -80,4 +79,3 @@ export default function HeroText3D() {
     </group>
   )
 }
-

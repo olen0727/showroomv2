@@ -1,10 +1,13 @@
 'use client'
 
 import * as THREE from 'three'
-import React, { useMemo } from 'react'
+import React, { useMemo, useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { Group } from 'three'
 import { useTransformStore, TransformProvider, TransformEditorUI, useTransform } from './TransformEditor'
+import { useScrollProgress } from './ScrollProgressContext'
 
-/* ── colour palette ── */
+/* ── 色票 ── */
 const C = {
   floor: '#ede5d8',
   rug1: '#f97316',
@@ -39,14 +42,14 @@ function Box({
 }
 
 /*
- * Layout — character faces +Z (camera).
- * Desk / monitors sit BEHIND the character (negative Z).
+ * Layout — 人物面向 +Z（鏡頭）。
+ * 桌子 / 螢幕位於人物背後（負 Z）。
  *
  *   camera  ←  character  ←  desk / monitors
  *   z ≈ +7      z = 0          z ≈ -0.9
  */
 
-/* ── desk ── */
+/* ── 桌子 ── */
 function Desk() {
   const t = useTransform('Desk', { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] })
   const legH = 0.62
@@ -59,7 +62,7 @@ function Desk() {
   ]
   return (
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
-      {/* surface */}
+      {/* 桌面 */}
       <Box position={[0, legH + 0.03, 0]} scale={[1.8, 0.06, 0.7]} color={C.desk} castShadow />
       {legs.map((p, i) => (
         <mesh key={i} position={p} castShadow>
@@ -67,23 +70,23 @@ function Desk() {
           <meshStandardMaterial color={C.deskLeg} />
         </mesh>
       ))}
-      {/* pencil cup */}
+      {/* 筆筒 */}
       <mesh position={[-0.55, 0.76, 0.05]} castShadow>
         <cylinderGeometry args={[0.05, 0.055, 0.12, 12]} />
         <meshStandardMaterial color={C.pencilCup} />
       </mesh>
-      {/* small items */}
+      {/* 小物件 */}
       <Box position={[0.6, 0.70, 0.05]} scale={[0.14, 0.05, 0.09]} color="#60a5fa" castShadow />
     </group>
   )
 }
 
-/* ── two monitors behind/above the character ── */
+/* ── 兩台螢幕 ── */
 function Monitors() {
   const t = useTransform('Monitors', { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] })
   return (
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
-      {/* left monitor */}
+      {/* 左螢幕 */}
       <group position={[-0.42, 1.14, -0.05]}>
         <Box position={[0, 0, 0]} scale={[0.56, 0.36, 0.04]} color={C.monitor} castShadow />
         <mesh position={[0, 0, 0.022]}>
@@ -100,7 +103,7 @@ function Monitors() {
         <Box position={[0, -0.27, 0.10]} scale={[0.18, 0.03, 0.12]} color={C.monitor} />
       </group>
 
-      {/* right monitor */}
+      {/* 右螢幕 */}
       <group position={[0.42, 1.06, -0.05]}>
         <Box position={[0, 0, 0]} scale={[0.52, 0.33, 0.04]} color={C.monitor} castShadow />
         <mesh position={[0, 0, 0.022]}>
@@ -120,21 +123,21 @@ function Monitors() {
   )
 }
 
-/* ── chair — seat faces +Z (same as character) ── */
+/* ── 椅子 — 座面朝向 +Z ── */
 function Chair() {
   const t = useTransform('Chair', { position: [0, 0, -0.3], rotation: [0, 0, 0], scale: [1, 1, 1] })
   return (
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
-      {/* seat */}
+      {/* 座墊 */}
       <Box position={[0, 0.38, 0]} scale={[0.52, 0.06, 0.50]} color={C.chair} castShadow />
-      {/* back rest */}
+      {/* 靠背 */}
       <Box position={[0, 0.70, -0.23]} scale={[0.50, 0.60, 0.06]} color={C.chair} castShadow />
-      {/* pole */}
+      {/* 支柱 */}
       <mesh position={[0, 0.18, 0]} castShadow>
         <cylinderGeometry args={[0.03, 0.03, 0.36, 8]} />
         <meshStandardMaterial color="#555" />
       </mesh>
-      {/* 5-star base */}
+      {/* 五星底座 */}
       {[0, 72, 144, 216, 288].map((deg, i) => {
         const rad = (deg * Math.PI) / 180
         return (
@@ -148,7 +151,7 @@ function Chair() {
   )
 }
 
-/* ── striped rug ── */
+/* ── 條紋地毯 ── */
 function Rug() {
   const t = useTransform('Rug', { position: [0, 0, -0.4], rotation: [0, 0, 0], scale: [1, 1, 1] })
   const stripes = [
@@ -168,7 +171,7 @@ function Rug() {
   )
 }
 
-/* ── floor only (no walls) ── */
+/* ── 地板 ── */
 function Floor() {
   const t = useTransform('Floor', { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] })
   return (
@@ -179,7 +182,7 @@ function Floor() {
   )
 }
 
-/* ── corner plant (right side) ── */
+/* ── 角落盆栽 ── */
 function CornerPlant() {
   const t = useTransform('CornerPlant', { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] })
   return (
@@ -202,7 +205,7 @@ function CornerPlant() {
   )
 }
 
-/* ── Bookcase (深色木頭多層書櫃) ── */
+/* ── 書櫃 ── */
 function ShelfBooks({ y, width, depth }: { y: number, width: number, depth: number }) {
   const books = useMemo(() => {
     const arr = []
@@ -237,7 +240,7 @@ function ShelfBooks({ y, width, depth }: { y: number, width: number, depth: numb
           <meshStandardMaterial color={b.color} />
         </mesh>
       ))}
-      {/* 隨機加入一顆裝飾球或小擺件 */}
+      {/* 隨機裝飾球 */}
       {Math.random() > 0.75 && (
         <mesh position={[width / 2 - 0.15, 0.08, 0.05]} castShadow>
           <sphereGeometry args={[0.06, 16, 16]} />
@@ -253,24 +256,18 @@ function Bookcase() {
   const W = 1.2
   const H = 2.2
   const D = 0.35
-  const T = 0.04 // 木板厚度
-  const color = '#241f1c' // 深木色
-  
-  // y座標: 各層高度
+  const T = 0.04
+  const color = '#241f1c'
   const shelvesY = [0.02, 0.38, 0.74, 1.10, 1.46, 1.82]
 
   return (
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
-      {/* 左右側板 */}
       <Box position={[-W / 2 + T / 2, H / 2, 0]} scale={[T, H, D]} color={color} castShadow receiveShadow />
       <Box position={[W / 2 - T / 2, H / 2, 0]} scale={[T, H, D]} color={color} castShadow receiveShadow />
-      {/* 背板 */}
       <Box position={[0, H / 2, -D / 2 + T / 2]} scale={[W, H, T]} color={color} receiveShadow />
-      {/* 頂部線板 */}
       <Box position={[0, H - T / 2, 0]} scale={[W, T, D]} color={color} castShadow receiveShadow />
       <Box position={[0, H + 0.02, 0]} scale={[W + 0.06, 0.04, D + 0.04]} color={color} castShadow receiveShadow />
 
-      {/* 層板與書本 */}
       {shelvesY.map((y, i) => (
         <group key={i}>
           <Box position={[0, y, 0]} scale={[W - T * 2, T, D - 0.02]} color={color} castShadow receiveShadow />
@@ -281,31 +278,24 @@ function Bookcase() {
   )
 }
 
-/* ── CoffeeTable (深色茶几與攤開的書) ── */
+/* ── 茶几 ── */
 function OpenBook({ position }: { position: [number, number, number] }) {
   const pageColor = '#f5eedc'
   const coverColor = '#6b442a'
-  const W = 0.28 // 單邊頁面寬度
-  const H = 0.35 // 書本高度(深度)
-  const T = 0.03  // 書本厚度
-  const angle = 0.15 // 頁面微翹的角度
+  const W = 0.28
+  const H = 0.35
+  const T = 0.03
+  const angle = 0.15
 
   return (
     <group position={position} rotation={[0, -0.2, 0]}>
-      {/* 底部書皮 */}
       <Box position={[0, -0.015, 0]} scale={[W * 2 + 0.04, 0.01, H + 0.02]} color={coverColor} castShadow />
-      
-      {/* 左半邊書面 */}
       <group position={[-0.01, 0, 0]} rotation={[0, 0, angle]}>
         <Box position={[-W / 2, 0, 0]} scale={[W, T, H]} color={pageColor} castShadow receiveShadow />
       </group>
-      
-      {/* 右半邊書面 */}
       <group position={[0.01, 0, 0]} rotation={[0, 0, -angle]}>
         <Box position={[W / 2, 0, 0]} scale={[W, T, H]} color={pageColor} castShadow receiveShadow />
       </group>
-      
-      {/* 書脊中間的凹陷黑線裝飾 */}
       <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.015, 0.015, H, 8, 1, false, 0, Math.PI]} />
         <meshStandardMaterial color={pageColor} />
@@ -316,37 +306,34 @@ function OpenBook({ position }: { position: [number, number, number] }) {
 
 function CoffeeTable() {
   const t = useTransform('CoffeeTable', { position: [-1.2, 0, 1.2], rotation: [0, 0.5, 0], scale: [1, 1, 1] })
-  
-  const W = 1.3  // 桌面寬
-  const H = 0.45 // 桌高
-  const D = 0.7  // 桌面深
-  const legT = 0.06 // 桌腳粗細
-  const boardT = 0.04 // 桌面厚度
-  const color = '#3c2f29' // 黑褐色木紋
-  
+  const W = 1.3
+  const H = 0.45
+  const D = 0.7
+  const legT = 0.06
+  const boardT = 0.04
+  const color = '#3c2f29'
+
   return (
     <group position={t.position} rotation={t.rotation} scale={t.scale}>
-      {/* 桌面 */}
       <Box position={[0, H - boardT / 2, 0]} scale={[W, boardT, D]} color={color} castShadow receiveShadow />
-      
-      {/* 四支桌腳外框 */}
       <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
       <Box position={[ W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2, -D / 2 + legT / 2 + 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
       <Box position={[-W / 2 + legT / 2 + 0.02, H / 2 - boardT / 2,  D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
       <Box position={[ W / 2 - legT / 2 - 0.02, H / 2 - boardT / 2,  D / 2 - legT / 2 - 0.02]} scale={[legT, H - boardT, legT]} color={color} castShadow receiveShadow />
-      
-      {/* 周圍的側邊封口擋板 (類似圖片中深邃的箱體設計) */}
       <Box position={[0, H / 2, -D / 2 + legT / 2 + 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
       <Box position={[0, H / 2,  D / 2 - legT / 2 - 0.03]} scale={[W - legT * 2, H * 0.7, 0.02]} color="#2a201c" castShadow receiveShadow />
       <Box position={[-W / 2 + legT / 2 + 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
       <Box position={[ W / 2 - legT / 2 - 0.03, H / 2, 0]} scale={[0.02, H * 0.7, D - legT * 2]} color="#2a201c" castShadow receiveShadow />
-
-      {/* 攤開的書籍放桌上 */}
       <OpenBook position={[0.1, H + 0.015, -0.05]} />
     </group>
   )
 }
 
+/**
+ * DeskRoom 主元件
+ * 根據 scrollOffset 在 0.10~0.30 區間逐漸縮小並向下移動，
+ * 達到 0.30 以上時完全隱藏以提升效能。
+ */
 export default function DeskRoom() {
   const store = useTransformStore({
     Floor: { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
@@ -359,12 +346,36 @@ export default function DeskRoom() {
     CoffeeTable: { position: [-1.2, 0, 1.2], rotation: [0, 0.5, 0], scale: [1, 1, 1] }
   })
 
-  // 設定 ENABLE_EDITOR = false 即可關閉此介面
-  const ENABLE_EDITOR = true
+  const ENABLE_EDITOR = false
+  const groupRef = useRef<Group>(null)
+  const scrollRef = useScrollProgress()
+
+  /* 每幀根據 scrollOffset 控制整個房間的 scale 與位置 */
+  useFrame(() => {
+    if (!groupRef.current) return
+    const offset = scrollRef.current.offset
+
+    if (offset < 0.10) {
+      // 完全顯示
+      groupRef.current.visible = true
+      groupRef.current.scale.setScalar(1)
+      groupRef.current.position.y = 0
+    } else if (offset < 0.30) {
+      // 逐漸縮小 + 下沉
+      groupRef.current.visible = true
+      const t = (offset - 0.10) / 0.20 // 0 → 1
+      const s = 1 - t               // 1 → 0
+      groupRef.current.scale.setScalar(Math.max(s, 0))
+      groupRef.current.position.y = -t * 3 // 向下沉
+    } else {
+      // 完全隱藏
+      groupRef.current.visible = false
+    }
+  })
 
   return (
     <TransformProvider value={store}>
-      <group>
+      <group ref={groupRef}>
         <Floor />
         <Rug />
         <Chair />
