@@ -13,7 +13,7 @@ import { useScrollProgress } from './ScrollProgressContext'
  */
 export default function HeroText3D() {
   const groupRef = useRef<Group>(null)
-  const wrapRef  = useRef<HTMLDivElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
   const scrollRef = useScrollProgress()
 
   // 初始位置
@@ -58,9 +58,9 @@ export default function HeroText3D() {
         <div ref={wrapRef} className={styles.container}>
           {/* 名稱 */}
           <h1 className={styles.name}>
-            Your
+            I'm Olen
             <br />
-            Name
+            Glad to meet you
           </h1>
 
           {/* 職稱標籤 */}
@@ -68,12 +68,13 @@ export default function HeroText3D() {
             FULL STACK DEVELOPER
           </div>
 
-          {/* 標語 */}
+          {/* 標語 
           <p className={styles.tagline}>
             Building immersive experiences
             <br />
             with Three.js · GSAP · Next.js
           </p>
+          */}
         </div>
       </Html>
     </group>

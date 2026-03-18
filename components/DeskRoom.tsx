@@ -336,14 +336,14 @@ function CoffeeTable() {
  */
 export default function DeskRoom() {
   const store = useTransformStore({
-    Floor: { position: [0, -0.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
-    Rug: { position: [0, 0, -0.4], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    Chair: { position: [0, 0, -0.3], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    Desk: { position: [0, 0, 2.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    Monitors: { position: [0, 0, -0.9], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    CornerPlant: { position: [1.4, 0, 0.5], rotation: [0, 0, 0], scale: [1, 1, 1] },
-    Bookcase: { position: [-1.6, 0, -0.5], rotation: [0, Math.PI / 6, 0], scale: [1, 1, 1] },
-    CoffeeTable: { position: [-1.2, 0, 1.2], rotation: [0, 0.5, 0], scale: [1, 1, 1] }
+    Floor: { position: [0, -1.002, 0], rotation: [-Math.PI / 2, 0, 0], scale: [1, 1, 1] },
+    Rug: { position: [1.66, -1, 0.47], rotation: [0, -0.34, 0], scale: [1, 1, 1] },
+    Chair: { position: [2.03, -1, 0.15], rotation: [0, -0.37, 0], scale: [1, 1, 1] },
+    Desk: { position: [0.97, -1, -0.89], rotation: [0, 1.2, 0], scale: [1.25, 1, 1] },
+    Monitors: { position: [0.86, -1.13, -1.09], rotation: [0, 1.21, 0], scale: [1.6, 1, 1] },
+    CornerPlant: { position: [1.02, -0.13, 1.23], rotation: [0, 0, 0], scale: [.5, .5, .5] },
+    Bookcase: { position: [2.74, -1, -2.33], rotation: [0, -0.39, 0], scale: [2.41, 1, 1] },
+    CoffeeTable: { position: [1.45, -1, 1.23], rotation: [0, -0.36, 0], scale: [1, 1.76, 1.66] }
   })
 
   const ENABLE_EDITOR = true

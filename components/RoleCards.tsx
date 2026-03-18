@@ -16,7 +16,7 @@ const ROLES = [
   {
     id: 'ux',
     title: 'UX Strategist',
-    subtitle: '以同理心洞察需求的產品策略師',
+    subtitle: '以同理心洞察需求的策略師',
     tags: ['工作坊', '用戶研究', '競品分析', '市場洞察', '服務設計', '原型設計', '商務提案'],
     cardClass: 'cardUx' as const,
     tagClass: 'tagUx' as const,
@@ -24,7 +24,7 @@ const ROLES = [
   {
     id: 'pm',
     title: 'Product Manager',
-    subtitle: '精準優先級管理及決策的專案舵手',
+    subtitle: '精準優先級管理與決策的專案舵手',
     tags: ['需求定義與分析', '策略規劃與執行', '數據分析', '決策力', '團隊溝通與驅動'],
     cardClass: 'cardPm' as const,
     tagClass: 'tagPm' as const,
@@ -47,9 +47,9 @@ function easeInOutCubic(t: number): number {
 /* ── 卡片位置型別（使用 vw / vh 作為位移單位） ── */
 type CardPos = { x: number; y: number; scale: number; z: number }
 
-const FRONT:      CardPos = { x: 0,    y: 0,   scale: 1.0,  z: 3 }
-const BACK_LEFT:  CardPos = { x: -30,  y: -5,  scale: 0.65, z: 1 }
-const BACK_RIGHT: CardPos = { x: 30,   y: -5,  scale: 0.65, z: 1 }
+const FRONT: CardPos = { x: 0, y: 20, scale: 1.0, z: 3 }
+const BACK_LEFT: CardPos = { x: -30, y: -5, scale: 0.65, z: 1 }
+const BACK_RIGHT: CardPos = { x: 30, y: -5, scale: 0.65, z: 1 }
 
 function getCardPos(cardIndex: number, activeIndex: number): CardPos {
   if (cardIndex === activeIndex) return FRONT
@@ -59,10 +59,10 @@ function getCardPos(cardIndex: number, activeIndex: number): CardPos {
 
 function lerpPos(a: CardPos, b: CardPos, t: number): CardPos {
   return {
-    x:     lerp(a.x,     b.x, t),
-    y:     lerp(a.y,     b.y, t),
+    x: lerp(a.x, b.x, t),
+    y: lerp(a.y, b.y, t),
     scale: lerp(a.scale, b.scale, t),
-    z:     Math.round(lerp(a.z, b.z, t)),
+    z: Math.round(lerp(a.z, b.z, t)),
   }
 }
 
@@ -98,10 +98,10 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
         const easeAppear = easeInOutCubic(appearProgress)
         const target = getCardPos(index, 0)
         pos = {
-          x:     lerp(0, target.x, easeAppear),
-          y:     lerp(50, target.y, easeAppear),
+          x: lerp(0, target.x, easeAppear),
+          y: lerp(50, target.y, easeAppear),
           scale: lerp(0.3, target.scale, easeAppear),
-          z:     target.z,
+          z: target.z,
         }
         opacity = easeAppear
       } else if (offset < 0.60) {

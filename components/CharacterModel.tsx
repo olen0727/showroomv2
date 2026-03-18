@@ -33,7 +33,7 @@ export default function CharacterModel() {
   useEffect(() => {
     scene.traverse((obj) => {
       if (obj instanceof Mesh) {
-        obj.castShadow    = true
+        obj.castShadow = true
         obj.receiveShadow = true
         if (obj.material instanceof MeshStandardMaterial) {
           obj.material.side = THREE.DoubleSide
@@ -118,8 +118,8 @@ export default function CharacterModel() {
        * position z=0 → 人物初始位置。
        * 模型高度 2.56 units，腳底 y=0，scale=1 合適。
        */
-      position={[0, 0, 0]}
-      rotation={[0, 0, 0]}
+      position={[2, -1, 0]}
+      rotation={[0, -0.5, 0]}
     >
       <primitive object={scene} scale={1.0} />
     </group>

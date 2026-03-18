@@ -40,7 +40,7 @@ export default function Scene3D({ scrollOffsetRef }: Scene3DProps) {
           <ScrollControls pages={5} damping={0.15}>
             <ScrollProgressProvider externalRef={scrollOffsetRef}>
               <ContactShadows
-                position={[0, -0.01, 0]}
+                position={[0, -1.01, 0]}
                 opacity={0.25}
                 scale={10}
                 blur={2.0}

@@ -22,7 +22,7 @@
 .cardFullstack,
 .cardUx,
 .cardPm {
-  width: 340px;
+  width: 480px;
   padding: 28px 24px;
   border-radius: 20px;
   backdrop-filter: blur(20px);
@@ -36,10 +36,9 @@
 /* ── FullStack — 藍色調 ── */
 .cardFullstack {
   background: linear-gradient(135deg,
-    rgba(30, 64, 175, 0.50) 0%,
-    rgba(37, 99, 235, 0.35) 50%,
-    rgba(59, 130, 246, 0.25) 100%
-  );
+      rgba(30, 64, 175, 0.50) 0%,
+      rgba(37, 99, 235, 0.35) 50%,
+      rgba(59, 130, 246, 0.25) 100%);
   border: 1px solid rgba(96, 165, 250, 0.40);
   box-shadow:
     0 8px 32px rgba(30, 64, 175, 0.30),
@@ -49,10 +48,9 @@
 /* ── UX — 橙/金色調 ── */
 .cardUx {
   background: linear-gradient(135deg,
-    rgba(180, 120, 40, 0.50) 0%,
-    rgba(217, 160, 60, 0.35) 50%,
-    rgba(251, 191, 36, 0.25) 100%
-  );
+      rgba(180, 120, 40, 0.50) 0%,
+      rgba(217, 160, 60, 0.35) 50%,
+      rgba(251, 191, 36, 0.25) 100%);
   border: 1px solid rgba(251, 191, 36, 0.40);
   box-shadow:
     0 8px 32px rgba(180, 120, 40, 0.30),
@@ -62,10 +60,9 @@
 /* ── Product Manager — 綠色調 ── */
 .cardPm {
   background: linear-gradient(135deg,
-    rgba(22, 101, 52, 0.50) 0%,
-    rgba(34, 197, 94, 0.30) 50%,
-    rgba(74, 222, 128, 0.20) 100%
-  );
+      rgba(22, 101, 52, 0.50) 0%,
+      rgba(34, 197, 94, 0.30) 50%,
+      rgba(74, 222, 128, 0.20) 100%);
   border: 1px solid rgba(74, 222, 128, 0.35);
   box-shadow:
     0 8px 32px rgba(22, 101, 52, 0.30),
@@ -84,7 +81,7 @@
 
 /* ── 副標題 ── */
 .subtitle {
-  font-size: 1.05rem;
+  font-size: 2rem;
   font-weight: 500;
   line-height: 1.4;
   margin-bottom: 16px;
@@ -104,37 +101,41 @@
   display: inline-block;
   padding: 3px 10px;
   border-radius: 9999px;
-  font-size: 0.72rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   white-space: nowrap;
   background: rgba(59, 130, 246, 0.35);
   border: 1px solid rgba(96, 165, 250, 0.4);
   color: #bfdbfe;
+  background: rgba(59, 130, 246, 0.75);
+  color: #fff;
 }
 
 .tagUx {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 9999px;
-  font-size: 0.72rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   white-space: nowrap;
-  background: rgba(251, 191, 36, 0.30);
+  background: rgba(251, 191, 36, 0.85);
   border: 1px solid rgba(251, 191, 36, 0.4);
   color: #fef3c7;
+  color: #fff;
 }
 
 .tagPm {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 9999px;
-  font-size: 0.72rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   white-space: nowrap;
   background: rgba(34, 197, 94, 0.30);
-  border: 1px solid rgba(74, 222, 128, 0.35);
+  border: 1px solid rgba(74, 222, 128, 0.85);
   color: #bbf7d0;
+  color: #fff;
 }
