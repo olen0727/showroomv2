@@ -47,7 +47,7 @@ function easeInOutCubic(t: number): number {
 /* ── 卡片位置型別（使用 vw / vh 作為位移單位） ── */
 type CardPos = { x: number; y: number; scale: number; z: number }
 
-const FRONT: CardPos = { x: 0, y: 20, scale: 1.0, z: 3 }
+const FRONT: CardPos = { x: 10, y: 20, scale: 1.0, z: 3 }
 const BACK_LEFT: CardPos = { x: 10, y: -5, scale: 0.35, z: 1 }
 const BACK_RIGHT: CardPos = { x: 30, y: -5, scale: 0.35, z: 1 }
 
