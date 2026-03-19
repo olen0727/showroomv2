@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import dynamic from 'next/dynamic'
 import styles from './HeroSection.module.css'
 import RoleCardsOverlay from './RoleCards'
+import CharacterStatsOverlay from './CharacterStats'
 
 // 3D 場景僅在客戶端載入（WebGL 不支援 SSR）
 const Scene3D = dynamic(() => import('@/components/Scene3D'), {
@@ -27,6 +28,7 @@ export default function HeroSection() {
   return (
     <section className={styles.hero}>
       <Scene3D scrollOffsetRef={scrollOffsetRef} />
+      <CharacterStatsOverlay scrollOffsetRef={scrollOffsetRef} />
       <RoleCardsOverlay scrollOffsetRef={scrollOffsetRef} />
     </section>
   )
