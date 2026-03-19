@@ -59,9 +59,49 @@ function getCardPos(cardIndex: number, activeIndex: number): CardPos {
 }
 
 function lerpPos(a: CardPos, b: CardPos, t: number): CardPos {
+  const lx = lerp(a.x, b.x, t)
+  const ly = lerp(a.y, b.y, t)
+
+  // 計算連線向量
+  const dx = b.x - a.x
+  const dy = b.y - a.y
+  const len = Math.sqrt(dx * dx + dy * dy)
+
+  let x = lx
+  let y = ly
+
+  if (len > 0.1) {
+    // 單位法向量
+    const nx = -dy / len
+    const ny = dx / len
+
+    // 求目前這三點位置的重心 (作為預期的「旋轉中心」)
+    const cx = (FRONT.x + BACK_LEFT.x + BACK_RIGHT.x) / 3
+    const cy = (FRONT.y + BACK_LEFT.y + BACK_RIGHT.y) / 3
+
+    // 線段中點
+    const mx = (a.x + b.x) / 2
+    const my = (a.y + b.y) / 2
+
+    // 從重心指向中點的方向
+    const toMidX = mx - cx
+    const toMidY = my - cy
+
+    // 確保法向量與中點向外推的方向一致 (若內積 < 0 則反向)
+    const dot = nx * toMidX + ny * toMidY
+    const sign = dot > 0 ? 1 : -1
+
+    // 設定弧度最高點為線段總長的 35% 左右，產生漂亮的圓彎
+    const arcHeight = len * 0.35
+    const curve = Math.sin(t * Math.PI) * arcHeight * sign
+
+    x = lx + nx * curve
+    y = ly + ny * curve
+  }
+
   return {
-    x: lerp(a.x, b.x, t),
-    y: lerp(a.y, b.y, t),
+    x,
+    y,
     scale: lerp(a.scale, b.scale, t),
     z: Math.round(lerp(a.z, b.z, t)),
   }
