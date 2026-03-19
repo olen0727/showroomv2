@@ -12,6 +12,7 @@ const ROLES = [
     tags: ['Vue', 'React', 'Python', 'PHP', 'RDB+NoSQL', 'Cloud Platforms', 'SEO', 'a11y'],
     cardClass: 'cardFullstack' as const,
     tagClass: 'tagFullstack' as const,
+    video: '/video/fullstackvideo.mp4',
   },
   {
     id: 'ux',
@@ -20,6 +21,7 @@ const ROLES = [
     tags: ['工作坊', '用戶研究', '競品分析', '市場洞察', '服務設計', '原型設計', '商務提案'],
     cardClass: 'cardUx' as const,
     tagClass: 'tagUx' as const,
+    video: '/video/pm.mp4',
   },
   {
     id: 'pm',
@@ -28,6 +30,7 @@ const ROLES = [
     tags: ['需求定義與分析', '策略規劃與執行', '數據分析', '決策力', '團隊溝通與驅動'],
     cardClass: 'cardPm' as const,
     tagClass: 'tagPm' as const,
+    video: '/video/pm.mp4',
   },
 ]
 
@@ -47,7 +50,7 @@ function easeInOutCubic(t: number): number {
 /* ── 卡片位置型別（使用 vw / vh 作為位移單位） ── */
 type CardPos = { x: number; y: number; scale: number; z: number; opacity: number }
 
-const FRONT: CardPos = { x: 28, y: 20, scale: 1.0, z: 10, opacity: 1.0 }
+const FRONT: CardPos = { x: 28, y: 0, scale: 1.0, z: 10, opacity: 1.0 }
 const BACK_LEFT: CardPos = { x: -10, y: -5, scale: 0.35, z: 1, opacity: 0 }
 const BACK_RIGHT: CardPos = { x: 20, y: -5, scale: 0.35, z: 1, opacity: 0 }
 
@@ -115,6 +118,8 @@ interface RoleCardsOverlayProps {
 
 export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayProps) {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
+  const playingRefs = useRef<boolean[]>([false, false, false])
   const rafRef = useRef<number>(0)
 
   const animate = useCallback(() => {
@@ -163,6 +168,18 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
       el.style.opacity = String(opacity)
       el.style.transform = `translate(calc(-50% + ${pos.x}vw), calc(-50% + ${pos.y}vh)) scale(${pos.scale})`
       el.style.zIndex = String(pos.z)
+
+      const isFront = Math.abs(pos.x - FRONT.x) < 0.1 && Math.abs(pos.y - FRONT.y) < 0.1 && opacity > 0.9
+      const videoEl = videoRefs.current[index]
+      if (videoEl) {
+        if (isFront && !playingRefs.current[index]) {
+          playingRefs.current[index] = true
+          videoEl.play().catch((e) => console.log('Video play error:', e))
+        } else if (!isFront && playingRefs.current[index]) {
+          playingRefs.current[index] = false
+          videoEl.pause()
+        }
+      }
     })
 
     rafRef.current = requestAnimationFrame(animate)
@@ -182,17 +199,32 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
         <div
           key={role.id}
           ref={el => { cardRefs.current[i] = el }}
-          className={`${styles.cardWrapper} ${styles[role.cardClass]}`}
+          className={styles.cardWrapper}
           style={{ opacity: 0, transform: 'translate(-50%, 100%) scale(0.3)' }}
         >
-          <div className={styles.title}>{role.title}</div>
-          <div className={styles.subtitle}>{role.subtitle}</div>
-          <div className={styles.tags}>
-            {role.tags.map((tag) => (
-              <span key={tag} className={styles[role.tagClass]}>
-                {tag}
-              </span>
-            ))}
+          {/* 視窗 1：影片卡片 */}
+          <div className={`${styles.videoCard} ${styles[role.cardClass]}`}>
+            <video
+              ref={el => { videoRefs.current[i] = el }}
+              src={role.video}
+              className={styles.videoPlayer}
+              muted
+              playsInline
+              loop
+            />
+          </div>
+
+          {/* 視窗 2：資訊卡片 */}
+          <div className={`${styles.contentCard} ${styles[role.cardClass]}`}>
+            <div className={styles.title}>{role.title}</div>
+            <div className={styles.subtitle}>{role.subtitle}</div>
+            <div className={styles.tags}>
+              {role.tags.map((tag) => (
+                <span key={tag} className={styles[role.tagClass]}>
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       ))}

@@ -14,6 +14,10 @@
   left: 50%;
   will-change: transform, opacity;
   transition: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
 }
 
 /* ── 卡片基礎樣式 ── */
@@ -21,7 +25,6 @@
 .cardUx,
 .cardPm {
   width: 480px;
-  padding: 28px 24px;
   border-radius: 20px;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -33,12 +36,13 @@
 
 /* ── FullStack — 藍色調 ── */
 .cardFullstack {
-  background: 
+  background:
     linear-gradient(135deg,
       rgba(30, 64, 175, 0.50) 0%,
       rgba(37, 99, 235, 0.35) 50%,
       rgba(59, 130, 246, 0.25) 100%),
-    rgba(10, 15, 30, 0.85); /* 墊上一層深色實底，阻絕明亮的網格線穿透 */
+    rgba(10, 15, 30, 0.85);
+  /* 墊上一層深色實底，阻絕明亮的網格線穿透 */
   border: 1px solid rgba(96, 165, 250, 0.40);
   box-shadow:
     0 8px 32px rgba(30, 64, 175, 0.30),
@@ -47,7 +51,7 @@
 
 /* ── UX — 橙/金色調 ── */
 .cardUx {
-  background: 
+  background:
     linear-gradient(135deg,
       rgba(180, 120, 40, 0.50) 0%,
       rgba(217, 160, 60, 0.35) 50%,
@@ -61,7 +65,7 @@
 
 /* ── Product Manager — 綠色調 ── */
 .cardPm {
-  background: 
+  background:
     linear-gradient(135deg,
       rgba(22, 101, 52, 0.50) 0%,
       rgba(34, 197, 94, 0.30) 50%,
@@ -140,6 +144,27 @@
   white-space: nowrap;
   background: rgba(34, 197, 94, 0.30);
   border: 1px solid rgba(74, 222, 128, 0.85);
-  color: #bbf7d0;
   color: #fff;
+}
+
+/* ── 內容卡片專屬 ── */
+.contentCard {
+  padding: 28px 24px;
+}
+
+/* ── 影片播放器專屬卡片 ── */
+.videoCard {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.videoPlayer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  pointer-events: none;
 }
