@@ -16,7 +16,7 @@ export const VIRTUAL_BG_CONFIG = {
   colorEnd: '#020617',   // 結束的虛擬深藍色背景 (slate-950)
 
   // 網格透視（消失點）與地平線參數
-  gridY: -1.0,           // 網格(地平線) 高度，調整此值可升降地平線
+  gridY: -1.1,           // 網格(地平線) 高度，調整此值可升降地平線
   gridRotation: [-0.25, -0.5, 0] as [number, number, number], // 調整此 [X, Y, Z] 可改變網格的傾斜角度即「透視消失點」的方向
   gridSize: 100,         // 網格總邊長
   cellSize: 0.5,         // 小格單位大小
@@ -50,9 +50,10 @@ export default function VirtualBackground() {
     currentColor.copy(cStart).lerp(cEnd, progress)
     scene.background.copy(currentColor)
 
-    // 2. 網格淡入 (從 0 漸變到 1)
+    // 2. 網格淡入 (從 0 漸變到 1) 與修復深度穿模
     if (gridMaterialRef.current) {
       gridMaterialRef.current.opacity = progress
+      gridMaterialRef.current.depthWrite = false // 強制不寫入深度，讓後畫的人物永遠蓋過它
     }
     if (groupRef.current) {
       groupRef.current.visible = progress > 0
@@ -66,6 +67,7 @@ export default function VirtualBackground() {
       rotation={VIRTUAL_BG_CONFIG.gridRotation}
     >
       <Grid
+        renderOrder={-1}
         ref={(grid: any) => { if (grid) gridMaterialRef.current = grid.material }}
         args={[VIRTUAL_BG_CONFIG.gridSize, VIRTUAL_BG_CONFIG.gridSize]}
         cellSize={VIRTUAL_BG_CONFIG.cellSize}
