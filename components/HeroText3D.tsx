@@ -65,7 +65,7 @@ export default function HeroText3D() {
 
           {/* 職稱標籤 */}
           <div className={styles.badge}>
-            FULL STACK DEVELOPER
+            Welcome to my home
           </div>
 
           {/* 標語 

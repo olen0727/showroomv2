@@ -23,8 +23,8 @@ const ROLES = [
   },
   {
     id: 'pm',
-    title: 'Product Manager',
-    subtitle: '精準優先級管理與決策的專案舵手',
+    title: 'Project Manager',
+    subtitle: '優先級決策與管理的專案舵手',
     tags: ['需求定義與分析', '策略規劃與執行', '數據分析', '決策力', '團隊溝通與驅動'],
     cardClass: 'cardPm' as const,
     tagClass: 'tagPm' as const,
@@ -45,11 +45,11 @@ function easeInOutCubic(t: number): number {
 }
 
 /* ── 卡片位置型別（使用 vw / vh 作為位移單位） ── */
-type CardPos = { x: number; y: number; scale: number; z: number }
+type CardPos = { x: number; y: number; scale: number; z: number; opacity: number }
 
-const FRONT: CardPos = { x: 10, y: 20, scale: 1.0, z: 3 }
-const BACK_LEFT: CardPos = { x: 10, y: -5, scale: 0.35, z: 1 }
-const BACK_RIGHT: CardPos = { x: 30, y: -5, scale: 0.35, z: 1 }
+const FRONT: CardPos = { x: 28, y: 20, scale: 1.0, z: 10, opacity: 1.0 }
+const BACK_LEFT: CardPos = { x: -10, y: -5, scale: 0.35, z: 1, opacity: 0 }
+const BACK_RIGHT: CardPos = { x: 20, y: -5, scale: 0.35, z: 1, opacity: 0 }
 
 function getCardPos(cardIndex: number, activeIndex: number): CardPos {
   const diff = (cardIndex - activeIndex + 3) % 3
@@ -104,6 +104,7 @@ function lerpPos(a: CardPos, b: CardPos, t: number): CardPos {
     y,
     scale: lerp(a.scale, b.scale, t),
     z: Math.round(lerp(a.z, b.z, t)),
+    opacity: lerp(a.opacity, b.opacity, t),
   }
 }
 
@@ -143,16 +144,20 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
           y: lerp(50, target.y, easeAppear),
           scale: lerp(0.3, target.scale, easeAppear),
           z: target.z,
+          opacity: target.opacity,
         }
-        opacity = easeAppear
+        opacity = easeAppear * pos.opacity
       } else if (offset < 0.80) {
         const t = easeInOutCubic(rangeProgress(offset, 0.65, 0.80))
         pos = lerpPos(getCardPos(index, 0), getCardPos(index, 1), t)
+        opacity = pos.opacity
       } else if (offset < 0.95) {
         const t = easeInOutCubic(rangeProgress(offset, 0.80, 0.95))
         pos = lerpPos(getCardPos(index, 1), getCardPos(index, 2), t)
+        opacity = pos.opacity
       } else {
         pos = getCardPos(index, 2)
+        opacity = pos.opacity
       }
 
       el.style.opacity = String(opacity)

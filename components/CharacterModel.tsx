@@ -9,6 +9,15 @@ import { useScrollProgress } from './ScrollProgressContext'
 
 useGLTF.preload('/models/meshy2.glb')
 
+/* 人物位置參數區，可設定 0.10~0.25 期間的移動軌跡 */
+export const CHAR_POS = {
+  start: [2, -1, 0] as [number, number, number], // 坐著看書時的初始位置 
+  end: [0, -1, 0] as [number, number, number], // 起立後完成走動準備的位置 (您可以自由修改此陣列來決定他起立後挪動到哪邊)
+}
+
+const posStart = new THREE.Vector3(...CHAR_POS.start)
+const posEnd = new THREE.Vector3(...CHAR_POS.end)
+
 /*
  * Animations inside meshy2.glb
  *   "Sit_and_Doze_Off" : 坐著看書
@@ -58,7 +67,7 @@ export default function CharacterModel() {
     const dozeAction = actions['Sit_and_Doze_Off']
     const sitAction = actions['Sit_to_standTransition_Female_2']
     const walkAction = actions['Walking']
-    if (!dozeAction || !sitAction || !walkAction) return
+    if (!dozeAction || !sitAction || !walkAction || !groupRef.current) return
 
     const clipDuration = sitAction.getClip().duration
 
@@ -68,7 +77,7 @@ export default function CharacterModel() {
         // 從其他階段退回坐姿
         walkAction.fadeOut(0.3)
         sitAction.fadeOut(0.3)
-        
+
         dozeAction.reset()
         dozeAction.setLoop(THREE.LoopRepeat, Infinity)
         dozeAction.timeScale = 1
@@ -76,12 +85,13 @@ export default function CharacterModel() {
         dozeAction.play()
         phaseRef.current = 'sitting'
       }
+      groupRef.current.position.copy(posStart) // 強制鎖定在起始位置
     } else if (offset < 0.25) {
       /* ── 起立階段：根據 offset 線性推進動畫時間 ── */
       if (phaseRef.current !== 'standing') {
         if (phaseRef.current === 'walking') walkAction.fadeOut(0.3)
         if (phaseRef.current === 'sitting') dozeAction.fadeOut(0.3)
-        
+
         sitAction.reset()
         sitAction.setLoop(THREE.LoopOnce, 1)
         sitAction.clampWhenFinished = true
@@ -90,10 +100,13 @@ export default function CharacterModel() {
         sitAction.play()
         phaseRef.current = 'standing'
       }
-      
+
       // 將 offset 0.10~0.25 映射到動畫時間 0~duration
       const standProgress = (offset - 0.10) / 0.15
       sitAction.time = standProgress * clipDuration
+
+      // 在起立這段 0.10~0.25 期間，讓人物位置從 start 平滑過渡到 end
+      groupRef.current.position.lerpVectors(posStart, posEnd, standProgress)
     } else {
       /* ── 行走階段 ── */
       if (phaseRef.current !== 'walking') {
@@ -109,17 +122,13 @@ export default function CharacterModel() {
         walkAction.play()
         phaseRef.current = 'walking'
       }
+      groupRef.current.position.copy(posEnd) // 行走階段到達結束點
     }
   })
 
   return (
     <group
       ref={groupRef}
-      /*
-       * position z=0 → 人物初始位置。
-       * 模型高度 2.56 units，腳底 y=0，scale=1 合適。
-       */
-      position={[2, -1, 0]}
       rotation={[0, -0.5, 0]}
     >
       <primitive object={scene} scale={1.0} />
