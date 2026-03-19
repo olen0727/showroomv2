@@ -8,6 +8,7 @@ import CharacterModel from './CharacterModel'
 import DeskRoom from './DeskRoom'
 import FloatingElements from './FloatingElements'
 import HeroText3D from './HeroText3D'
+import VirtualBackground from './VirtualBackground'
 import styles from './Scene3D.module.css'
 
 /* 接收外部 ref，將 Canvas 內部的 scroll offset 同步給外部 */
@@ -50,6 +51,7 @@ export default function Scene3D({ scrollOffsetRef }: Scene3DProps) {
 
               <HeroText3D />
               <DeskRoom />
+              <VirtualBackground />
               <CharacterModel />
               <FloatingElements />
 
