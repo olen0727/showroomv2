@@ -119,7 +119,7 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
   const animate = useCallback(() => {
     const offset = scrollOffsetRef.current.offset
 
-    const appearProgress = rangeProgress(offset, 0.30, 0.45)
+    const appearProgress = rangeProgress(offset, 0.50, 0.65)
 
     ROLES.forEach((_, index) => {
       const el = cardRefs.current[index]
@@ -134,7 +134,7 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
       let pos: CardPos
       let opacity = 1
 
-      if (offset < 0.45) {
+      if (offset < 0.65) {
         // 出場動畫：從下方升起
         const easeAppear = easeInOutCubic(appearProgress)
         const target = getCardPos(index, 0)
@@ -145,11 +145,11 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
           z: target.z,
         }
         opacity = easeAppear
-      } else if (offset < 0.60) {
-        const t = easeInOutCubic(rangeProgress(offset, 0.45, 0.60))
+      } else if (offset < 0.80) {
+        const t = easeInOutCubic(rangeProgress(offset, 0.65, 0.80))
         pos = lerpPos(getCardPos(index, 0), getCardPos(index, 1), t)
-      } else if (offset < 0.78) {
-        const t = easeInOutCubic(rangeProgress(offset, 0.60, 0.78))
+      } else if (offset < 0.95) {
+        const t = easeInOutCubic(rangeProgress(offset, 0.80, 0.95))
         pos = lerpPos(getCardPos(index, 1), getCardPos(index, 2), t)
       } else {
         pos = getCardPos(index, 2)
