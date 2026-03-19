@@ -7,22 +7,22 @@ import { Group, Mesh, MeshStandardMaterial } from 'three'
 import * as THREE from 'three'
 import { useScrollProgress } from './ScrollProgressContext'
 
-useGLTF.preload('/models/meshy.glb')
+useGLTF.preload('/models/meshy2.glb')
 
 /*
- * Animations inside meshy.glb
- *   [0] "Running"
- *   [1] "Sit_to_standTransition_Female_2"   ← frame 0 = sitting, end = standing
- *   [2] "Walking"
+ * Animations inside meshy2.glb
+ *   "Sit_and_Doze_Off" : 坐著看書
+ *   "Sit_to_standTransition_Female_2" : 起立
+ *   "Walking" : 行走
  *
  * 滾動驅動策略：
- *   offset 0.00 ~ 0.10：維持坐姿（Sit_to_standTransition_Female_2 動畫尾端）
+ *   offset 0.00 ~ 0.10：維持坐著看書動畫（Sit_and_Doze_Off）
  *   offset 0.10 ~ 0.25：正向播放起立動畫（依 offset 比例推進時間）
  *   offset > 0.25：crossfade 切換至 Walking 動畫持續迴圈
  */
 export default function CharacterModel() {
   const groupRef = useRef<Group>(null)
-  const { scene, animations } = useGLTF('/models/meshy.glb')
+  const { scene, animations } = useGLTF('/models/meshy2.glb')
   const { actions, mixer } = useAnimations(animations, groupRef)
   const scrollRef = useScrollProgress()
 
@@ -42,25 +42,23 @@ export default function CharacterModel() {
     })
   }, [scene])
 
-  /* 初始化：設定為坐姿（反向播完起立動畫 → 停在坐姿尾端） */
+  /* 初始化：設定為坐著看書（Sit_and_Doze_Off） */
   useEffect(() => {
-    const sitAction = actions['Sit_to_standTransition_Female_2']
-    if (!sitAction) return
+    const dozeAction = actions['Sit_and_Doze_Off']
+    if (!dozeAction) return
 
-    sitAction.reset()
-    sitAction.setLoop(THREE.LoopOnce, 1)
-    sitAction.clampWhenFinished = true
-    sitAction.timeScale = -1
-    sitAction.time = sitAction.getClip().duration
-    sitAction.play()
+    dozeAction.reset()
+    dozeAction.setLoop(THREE.LoopRepeat, Infinity)
+    dozeAction.play()
   }, [actions])
 
   /* 每幀：依據 scrollOffset 控制動畫階段 */
   useFrame((_state, delta) => {
     const offset = scrollRef.current.offset
+    const dozeAction = actions['Sit_and_Doze_Off']
     const sitAction = actions['Sit_to_standTransition_Female_2']
     const walkAction = actions['Walking']
-    if (!sitAction || !walkAction) return
+    if (!dozeAction || !sitAction || !walkAction) return
 
     const clipDuration = sitAction.getClip().duration
 
@@ -69,35 +67,40 @@ export default function CharacterModel() {
       if (phaseRef.current !== 'sitting') {
         // 從其他階段退回坐姿
         walkAction.fadeOut(0.3)
-        sitAction.reset()
-        sitAction.setLoop(THREE.LoopOnce, 1)
-        sitAction.clampWhenFinished = true
-        sitAction.timeScale = 1
-        sitAction.time = 0 // 坐姿 = 動畫起始
-        sitAction.paused = true
-        sitAction.play()
+        sitAction.fadeOut(0.3)
+        
+        dozeAction.reset()
+        dozeAction.setLoop(THREE.LoopRepeat, Infinity)
+        dozeAction.timeScale = 1
+        dozeAction.fadeIn(0.3)
+        dozeAction.play()
         phaseRef.current = 'sitting'
       }
     } else if (offset < 0.25) {
       /* ── 起立階段：根據 offset 線性推進動畫時間 ── */
-      if (phaseRef.current === 'walking') {
-        walkAction.fadeOut(0.2)
+      if (phaseRef.current !== 'standing') {
+        if (phaseRef.current === 'walking') walkAction.fadeOut(0.3)
+        if (phaseRef.current === 'sitting') dozeAction.fadeOut(0.3)
+        
+        sitAction.reset()
+        sitAction.setLoop(THREE.LoopOnce, 1)
+        sitAction.clampWhenFinished = true
+        sitAction.timeScale = 0 // 暫停自動播放，手動設定時間
+        sitAction.fadeIn(0.3)
+        sitAction.play()
+        phaseRef.current = 'standing'
       }
+      
       // 將 offset 0.10~0.25 映射到動畫時間 0~duration
       const standProgress = (offset - 0.10) / 0.15
-      sitAction.reset()
-      sitAction.setLoop(THREE.LoopOnce, 1)
-      sitAction.clampWhenFinished = true
-      sitAction.timeScale = 0 // 暫停自動播放，手動設定時間
       sitAction.time = standProgress * clipDuration
-      sitAction.play()
-      phaseRef.current = 'standing'
     } else {
       /* ── 行走階段 ── */
       if (phaseRef.current !== 'walking') {
         // 確保起立動畫到結尾
         sitAction.time = clipDuration
         sitAction.fadeOut(0.4)
+        dozeAction.fadeOut(0.4)
 
         walkAction.reset()
         walkAction.setLoop(THREE.LoopRepeat, Infinity)
@@ -106,8 +109,6 @@ export default function CharacterModel() {
         walkAction.play()
         phaseRef.current = 'walking'
       }
-      // 更新 mixer 讓行走動畫播放
-      // mixer.update(delta) — drei 的 useAnimations 已自動更新
     }
   })
 
