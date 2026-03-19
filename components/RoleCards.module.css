@@ -5,8 +5,6 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 50;
-  overflow: hidden;
 }
 
 /* ── 卡片 wrapper（絕對定位、居中對齊） ── */

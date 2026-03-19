@@ -48,12 +48,13 @@ function easeInOutCubic(t: number): number {
 type CardPos = { x: number; y: number; scale: number; z: number }
 
 const FRONT: CardPos = { x: 0, y: 20, scale: 1.0, z: 3 }
-const BACK_LEFT: CardPos = { x: -30, y: -5, scale: 0.65, z: 1 }
-const BACK_RIGHT: CardPos = { x: 30, y: -5, scale: 0.65, z: 1 }
+const BACK_LEFT: CardPos = { x: 10, y: -5, scale: 0.35, z: 1 }
+const BACK_RIGHT: CardPos = { x: 30, y: -5, scale: 0.35, z: 1 }
 
 function getCardPos(cardIndex: number, activeIndex: number): CardPos {
-  if (cardIndex === activeIndex) return FRONT
-  if (cardIndex < activeIndex) return BACK_LEFT
+  const diff = (cardIndex - activeIndex + 3) % 3
+  if (diff === 0) return FRONT
+  if (diff === 1) return BACK_LEFT
   return BACK_RIGHT
 }
 
