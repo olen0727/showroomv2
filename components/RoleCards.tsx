@@ -21,7 +21,7 @@ const ROLES = [
     tags: ['工作坊', '用戶研究', '競品分析', '市場洞察', '服務設計', '原型設計', '商務提案'],
     cardClass: 'cardUx' as const,
     tagClass: 'tagUx' as const,
-    video: '/video/pm.mp4',
+    video: '/video/uxe.mp4',
   },
   {
     id: 'pm',
@@ -168,8 +168,8 @@ export default function RoleCardsOverlay({ scrollOffsetRef }: RoleCardsOverlayPr
       el.style.opacity = String(opacity)
       el.style.transform = `translate(calc(-50% + ${pos.x}vw), calc(-50% + ${pos.y}vh)) scale(${pos.scale})`
       el.style.zIndex = String(pos.z)
-
-      const isFront = Math.abs(pos.x - FRONT.x) < 0.1 && Math.abs(pos.y - FRONT.y) < 0.1 && opacity > 0.9
+      /*影片播放條件*/
+      const isFront = Math.abs(pos.x - FRONT.x) < 10 && Math.abs(pos.y - FRONT.y) < 10 && opacity > 0.6
       const videoEl = videoRefs.current[index]
       if (videoEl) {
         if (isFront && !playingRefs.current[index]) {

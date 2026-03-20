@@ -64,6 +64,7 @@ export default function CharacterModel() {
   /* 每幀：依據 scrollOffset 控制動畫階段 */
   useFrame((_state, delta) => {
     const offset = scrollRef.current.offset
+    // console.log('Current scroll offset:', offset)
     const dozeAction = actions['Sit_and_Doze_Off']
     const sitAction = actions['Sit_to_standTransition_Female_2']
     const walkAction = actions['Walking']
