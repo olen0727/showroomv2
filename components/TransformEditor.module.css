@@ -1,5 +1,6 @@
 /* components/TransformEditor.module.css */
 .container {
+  display: none;
   position: fixed;
   bottom: -100%;
   left: 20vw;
@@ -10,8 +11,8 @@
   border-radius: 12px;
   color: #fff;
   font-family: sans-serif;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: width 0.3s ease;
 }
 
@@ -31,7 +32,7 @@
 
 .headerExpanded {
   margin-bottom: 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 8px;
 }
 
