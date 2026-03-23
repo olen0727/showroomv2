@@ -1,0 +1,206 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #e0e0e0;
+  box-sizing: border-box;
+}
+
+.stickyLabelWrapper {
+  width: 120px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #eee;
+  background-color: #fafafa;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.stickyLabel {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 2rem;
+  color: #ccc;
+  letter-spacing: 0.2rem;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.mainDisplay {
+  flex: 0 0 55%;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.5s ease-in-out;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 100%);
+  transition: opacity 0.5s;
+}
+
+.mainContent {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.projectTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.projectDesc {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  max-width: 80%;
+  margin: 0 0 2rem 0;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 3rem;
+}
+
+.tag {
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  letter-spacing: 0.5px;
+}
+
+.linksContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.primaryLink, .secondaryLink {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.primaryLink {
+  background-color: #d32f2f;
+  color: #fff;
+}
+
+.primaryLink:hover {
+  background-color: #b71c1c;
+  transform: translateY(-2px);
+}
+
+.secondaryLink {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.secondaryLink:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.listArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 16px;
+}
+
+/* Custom Scrollbar for list area */
+.listArea::-webkit-scrollbar {
+  width: 6px;
+}
+.listArea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.listArea::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.listItem {
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #eaeaea;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.listItem:hover {
+  border-color: #ccc;
+  transform: translateX(-4px);
+  box-shadow: 4px 4px 15px rgba(0,0,0,0.05);
+}
+
+.activeItem {
+  border-color: #eaeaea;
+  background-color: #fafafa;
+  border-left: 6px solid #d32f2f;
+  transform: translateX(-8px) scale(1.02);
+  box-shadow: 8px 8px 20px rgba(0,0,0,0.08);
+}
+
+/* 確保 hover 不會覆蓋 active 樣式 */
+.activeItem:hover {
+  transform: translateX(-8px) scale(1.02);
+  border-left: 6px solid #d32f2f;
+}
+
+.listTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #111;
+}
+
+.listDesc {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

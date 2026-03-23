@@ -1,0 +1,220 @@
+.caseStudySection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemContainer {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #e0e0e0;
+  box-sizing: border-box;
+}
+
+.stickyLabelWrapper {
+  width: 120px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #eee;
+  background-color: #fafafa;
+  z-index: 10;
+}
+
+.stickyLabel {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 2rem;
+  color: #ccc;
+  letter-spacing: 0.2rem;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  gap: 5%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.textContent {
+  flex: 0 0 35%;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.projectName {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.projectDesc {
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.arrowBtn {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.arrowBtn:hover:not(:disabled) {
+  background-color: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.arrowBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.sliderArea {
+  flex: 1;
+  height: 70vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.sliderWindow {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px;
+}
+
+.sliderTrack {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slideImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 1.2rem;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+.arrowBtnRight {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.arrowBtnRight:hover:not(:disabled) {
+  background-color: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.arrowBtnRight:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.dotsContainer {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dot:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.activeDot {
+  background-color: #111;
+  transform: scale(1.2);
+}

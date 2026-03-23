@@ -1,0 +1,131 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: #f0f0f0; /* 背景稍微與前面區分，凸顯網格 */
+  box-sizing: border-box;
+}
+
+.stickyLabelWrapper {
+  width: 120px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #ddd;
+  background-color: #fafafa;
+  z-index: 50; /* 比一般圖片高 */
+  flex-shrink: 0;
+}
+
+.stickyLabel {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 2rem;
+  color: #ccc;
+  letter-spacing: 0.2rem;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.gridContainer {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 16px;
+  padding: 40px;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.centerInfoArea {
+  /* 7 列 6 行，中心是 col 3 到 5 (共3寬)，row 3 到 4 (共2高)
+     也就是 grid-column: 3 / span 3; grid-row: 3 / span 2; 
+  */
+  grid-column: 3 / 6;
+  grid-row: 3 / 5;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  z-index: 5;
+}
+
+.infoContent {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.infoTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 16px 0;
+}
+
+.infoDesc {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.infoPlaceholder {
+  color: #aaa;
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+.gridItem {
+  position: relative;
+  border-radius: 8px;
+  /* 非常重要：設定 z-index 以處理 hover 放大的覆蓋行為 */
+  z-index: 1;
+  transition: z-index 0s 0.3s; /* hover 結束後延遲降低 z-index */
+}
+
+.gridItem:hover {
+  z-index: 30;
+  transition: z-index 0s 0s; /* hover 瞬間提高 z-index */
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  position: relative;
+  /* 不要設定 overflow: hidden，這樣放大才能超出邊界 */
+}
+
+.projectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  transform-origin: center;
+}
+
+.gridItem:hover .projectImage {
+  transform: scale(1.35); /* 放大 35% */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  /* 在放大時也可以給它一點圓角修正（若需要），這裡保持原樣 */
+}
