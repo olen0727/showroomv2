@@ -37,24 +37,21 @@ const CareerSection = () => {
 
       cardsRef.current.forEach((card, index) => {
         if (!card) return;
-        
-        const resps = card.querySelectorAll(`.${styles.respItem}`);
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
+        gsap.fromTo(card,
+          { opacity: 0, y: 80 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1, 
+            ease: 'power3.out', 
+            force3D: true,
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
           }
-        });
-
-        tl.fromTo(card,
-          { opacity: 0, y: 50, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out' }
-        ).fromTo(resps,
-          { opacity: 0, x: -20 },
-          { opacity: 1, x: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
-          "-=0.4" // 與前段動畫重疊，增添流暢度
         );
       });
     }, sectionRef);
