@@ -25,10 +25,6 @@ const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
 
   return (
     <div className={styles.itemContainer}>
-      <div className={styles.stickyLabelWrapper}>
-        <h2 className={styles.stickyLabel}>CaseStudy</h2>
-      </div>
-      
       <div className={styles.contentArea}>
         <div className={styles.textContent}>
           <button className={styles.arrowBtn} onClick={handlePrev} disabled={!hasImages}>
@@ -86,14 +82,16 @@ const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
   );
 };
 
-const CaseStudy = () => {
+const CaseStudy = React.forwardRef<HTMLDivElement>((props, ref) => {
   return (
-    <div className={styles.caseStudySection}>
+    <div className={styles.caseStudySection} ref={ref} id="case-study-section">
       {caseStudies.map((study) => (
         <CaseStudyItem key={study.id} study={study} />
       ))}
     </div>
   );
-};
+});
+
+CaseStudy.displayName = 'CaseStudy';
 
 export default CaseStudy;

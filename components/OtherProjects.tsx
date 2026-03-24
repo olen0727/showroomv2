@@ -4,18 +4,14 @@ import React, { useState } from 'react';
 import styles from './OtherProjects.module.css';
 import { otherProjects, IOtherProject } from '../data/projectsData';
 
-const OtherProjects = () => {
+const OtherProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
   const [hoveredProject, setHoveredProject] = useState<IOtherProject | null>(null);
 
   // 確保只取前 36 個項目
   const displayProjects = otherProjects.slice(0, 36);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.stickyLabelWrapper}>
-        <h2 className={styles.stickyLabel}>OtherProjects</h2>
-      </div>
-
+    <div className={styles.container} ref={ref} id="other-projects-section">
       <div className={styles.gridContainer}>
         {/* 中央資訊區，CSS Grid 屬性設定它佔據特定的中心欄位 */}
         <div className={styles.centerInfoArea}>
@@ -47,6 +43,8 @@ const OtherProjects = () => {
       </div>
     </div>
   );
-};
+});
+
+OtherProjects.displayName = 'OtherProjects';
 
 export default OtherProjects;
