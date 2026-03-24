@@ -27,18 +27,19 @@ const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
     <div className={styles.itemContainer}>
       <div className={styles.contentArea}>
         <div className={styles.textContent}>
-          <button className={styles.arrowBtn} onClick={handlePrev} disabled={!hasImages}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
           <div className={styles.textWrapper}>
             <h3 className={styles.projectName}>{study.name}</h3>
             <p className={styles.projectDesc}>{study.description}</p>
           </div>
         </div>
 
-        <div className={styles.sliderArea}>
+        <div className={`${styles.sliderArea} ${currentIndex > 0 ? styles.expanded : ''}`}>
+          <button className={styles.arrowBtnLeft} onClick={handlePrev} disabled={!hasImages}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          
           <button className={styles.arrowBtnRight} onClick={handleNext} disabled={!hasImages}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
