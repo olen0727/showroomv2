@@ -74,9 +74,197 @@ export const sideProjects: ISideProject[] = [
   }
 ];
 
-export const otherProjects: IOtherProject[] = Array.from({ length: 36 }).map((_, i) => ({
-  id: `other${i + 1}`,
-  name: `Gallery Project ${String(i + 1).padStart(2, '0')}`,
-  description: `Exploring creative layouts and interaction patterns in project ${i + 1}. A brief snapshot of experimental design and frontend logic.`,
-  image: `/projects/otherprojects/Protfolio2025_${String(i + 1).padStart(2, '0')}.png`
-}));
+export const otherProjects: IOtherProject[] = [
+  {
+    id: 'other01',
+    name: '法國皇家LineLIFF會員平台',
+    description: 'A customizable daily productivity dashboard focusing on task management, habit tracking, and insightful data visualization.',
+    image: '/projects/otherprojects/Protfolio2025_01.png',
+  },
+  {
+    id: 'other02',
+    name: '第一銀行薪轉戶專區',
+    description: 'A robust and scalable UI component library built specifically for modern e-commerce storefronts under high traffic.',
+    image: '/projects/otherprojects/Protfolio2025_38.png',
+  },
+  {
+    id: 'other03',
+    name: 'AI Writing Assistant',
+    description: 'An AI-powered application designed to help writers overcome blocks and refine their narrative structures using LLM.',
+    image: '/projects/otherprojects/Protfolio2025_39.png',
+  },
+  {
+    id: 'other04',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_40.png',
+  },
+  {
+    id: 'other05',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_05.png',
+  },
+  {
+    id: 'other06',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_06.png',
+  },
+  {
+    id: 'other07',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_07.png',
+  },
+  {
+    id: 'other08',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_08.png',
+  },
+  {
+    id: 'other09',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_09.png',
+  },
+  {
+    id: 'other10',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_10.png',
+  },
+  {
+    id: 'other11',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_11.png',
+  },
+  {
+    id: 'other12',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_12.png',
+  },
+  {
+    id: 'other13',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_13.png',
+  },
+  {
+    id: 'other14',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_14.png',
+  },
+  {
+    id: 'other15',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_15.png',
+  },
+  {
+    id: 'other16',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_16.png',
+  },
+  {
+    id: 'other17',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_17.png',
+  },
+  {
+    id: 'other18',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_18.png',
+  },
+  {
+    id: 'other19',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_19.png',
+  },
+  {
+    id: 'other20',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_20.png',
+  },
+  {
+    id: 'other21',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_21.png',
+  },
+  {
+    id: 'other22',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_22.png',
+  },
+  {
+    id: 'other23',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_23.png',
+  },
+  {
+    id: 'other24',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_24.png',
+  },
+  {
+    id: 'other25',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_25.png',
+  },
+  {
+    id: 'other26',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_26.png',
+  },
+  {
+    id: 'other27',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_27.png',
+  },
+  {
+    id: 'other28',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_28.png',
+  },
+  {
+    id: 'other29',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_29.png',
+  },
+  {
+    id: 'other30',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_30.png',
+  },
+  {
+    id: 'other31',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_31.png',
+  },
+  {
+    id: 'other32',
+    name: 'Crypto Portfolio Tracker',
+    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    image: '/projects/otherprojects/Protfolio2025_32.png',
+  },
+];

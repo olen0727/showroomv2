@@ -22,6 +22,7 @@ const OtherProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
             </div>
           ) : (
             <div className={styles.infoPlaceholder}>
+              <h3 className={styles.infoTitle}>Other Projects</h3>
               <p>Hover over a project to see details.</p>
             </div>
           )}
@@ -29,8 +30,8 @@ const OtherProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
 
         {/* 網格圖片項目 */}
         {displayProjects.map((project) => (
-          <div 
-            key={project.id} 
+          <div
+            key={project.id}
             className={styles.gridItem}
             onMouseEnter={() => setHoveredProject(project)}
             onMouseLeave={() => setHoveredProject(null)}
