@@ -75,19 +75,19 @@ const OtherProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
       {selectedIndex !== null && (
         <div className={styles.modalOverlay} onClick={() => setSelectedIndex(null)}>
           <button className={styles.closeButton} onClick={() => setSelectedIndex(null)}>✕</button>
-          
+
           <button className={styles.navLeft} onClick={handlePrev}>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          
+
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalMainVisual}>
-              <img 
-                src={shuffledProjects[selectedIndex].image} 
-                alt={shuffledProjects[selectedIndex].name} 
-                className={styles.modalMainImage} 
+              <img
+                src={shuffledProjects[selectedIndex].image}
+                alt={shuffledProjects[selectedIndex].name}
+                className={styles.modalMainImage}
               />
             </div>
             <div className={styles.modalInfo}>
@@ -100,17 +100,17 @@ const OtherProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
               </div>
             </div>
           </div>
-          
+
           <button className={styles.navRight} onClick={handleNext}>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          
+
           <div className={styles.thumbnailContainer} ref={thumbnailContainerRef} onClick={(e) => e.stopPropagation()}>
             {shuffledProjects.map((proj, idx) => (
-              <div 
-                key={proj.id} 
+              <div
+                key={proj.id}
                 className={`${styles.thumbnailWrapper} ${idx === selectedIndex ? styles.activeThumbnail : ''}`}
                 onClick={() => setSelectedIndex(idx)}
               >
