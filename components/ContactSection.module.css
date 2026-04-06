@@ -36,6 +36,12 @@
   transition: opacity 0.5s ease;
 }
 
+@keyframes flowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* 為了配合漸變文字產生的多層次遮罩 */
 .titleOverlay {
   position: absolute;
@@ -47,21 +53,23 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  background-size: 300% 300%;
+  animation: flowGradient 5s ease infinite;
   opacity: 0;
   transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .overlayEmail {
-  background-image: linear-gradient(135deg, #f97316, #ffb200);
+  background-image: linear-gradient(-45deg, #f97316, #ffd000, #f97316, #ffaf00);
 }
 
 .overlayLinkedin {
-  background-image: linear-gradient(135deg, #0077b5, #0adeff);
+  background-image: linear-gradient(-45deg, #0077b5, #00d2ff, #0077b5, #0adeff);
 }
 
 .overlayGithub {
-  background-image: linear-gradient(135deg, #333333, #999999);
+  background-image: linear-gradient(-45deg, #333333, #aaaaaa, #333333, #999999);
 }
 
 .linksContainer {
