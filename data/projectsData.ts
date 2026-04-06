@@ -29,15 +29,22 @@ export const caseStudies: ICaseStudy[] = [
     id: 'case01',
     name: '國泰金控採購平台 UX 改造專案',
     description: '透過全新的 UX 設計與流程優化，全面提升企業內部採購效率，簡化繁瑣的簽核流程，並提供清晰直觀的數據面板以輔助決策。',
-    imagesFolder: '/projects/case01/國泰金控採購平台 UX 改造專案_',
+    imagesFolder: '/projects/case01/tree_',
     imagesCount: 10,
   },
   {
     id: 'case02',
     name: 'Project A02',
     description: 'This is another placeholder for case study. Future project will be placed here.',
-    imagesFolder: '/projects/case02/case02_',
-    imagesCount: 0,
+    imagesFolder: '/projects/case02/rc_',
+    imagesCount: 12,
+  },
+  {
+    id: 'case03',
+    name: 'Project A02',
+    description: 'This is another placeholder for case study. Future project will be placed here.',
+    imagesFolder: '/projects/case03/fish_',
+    imagesCount: 14,
   }
 ];
 
