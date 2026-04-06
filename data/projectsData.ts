@@ -4,6 +4,7 @@ export interface ICaseStudy {
   description: string;
   imagesFolder: string;
   imagesCount: number;
+  padZero?: boolean;
 }
 
 export interface ISideProject {
@@ -27,8 +28,8 @@ export interface IOtherProject {
 export const caseStudies: ICaseStudy[] = [
   {
     id: 'case01',
-    name: '國泰金控採購平台 UX 改造專案',
-    description: '透過全新的 UX 設計與流程優化，全面提升企業內部採購效率，簡化繁瑣的簽核流程，並提供清晰直觀的數據面板以輔助決策。',
+    name: 'Case Study 01',
+    description: '一個專案，七個甲方，這場亂鬥究竟鹿死誰手，誰能笑到最後',
     imagesFolder: '/projects/case01/tree_',
     imagesCount: 10,
   },
@@ -38,6 +39,7 @@ export const caseStudies: ICaseStudy[] = [
     description: 'This is another placeholder for case study. Future project will be placed here.',
     imagesFolder: '/projects/case02/rc_',
     imagesCount: 12,
+    padZero: false,
   },
   {
     id: 'case03',
@@ -45,6 +47,7 @@ export const caseStudies: ICaseStudy[] = [
     description: 'This is another placeholder for case study. Future project will be placed here.',
     imagesFolder: '/projects/case03/fish_',
     imagesCount: 14,
+    padZero: false,
   }
 ];
 

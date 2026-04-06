@@ -7,9 +7,10 @@ import { caseStudies, ICaseStudy } from '../data/projectsData';
 const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const images = Array.from({ length: study.imagesCount }).map((_, i) => 
-    `${study.imagesFolder}${String(i + 1).padStart(2, '0')}.png`
-  );
+  const images = Array.from({ length: study.imagesCount }).map((_, i) => {
+    const num = study.padZero === false ? String(i + 1) : String(i + 1).padStart(2, '0');
+    return `${study.imagesFolder}${num}.png`;
+  });
 
   const hasImages = images.length > 0;
 
