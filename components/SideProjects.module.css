@@ -1,10 +1,17 @@
 .container {
   display: flex;
-  height: 100vh;
   width: 100%;
   position: relative;
   border-bottom: 1px solid #e0e0e0;
   box-sizing: border-box;
+}
+
+.stickyContent {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
 }
 
 .stickyLabelWrapper {
@@ -168,7 +175,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding-left: 16px;
 }
 
@@ -212,6 +219,16 @@
   border-left: 6px solid #d32f2f;
   transform: translateX(-8px) scale(1.02);
   box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.08);
+  /*  */
+  background: #333;
+}
+
+.activeItem .listTitle {
+  color: #fff;
+}
+
+.activeItem .listDesc {
+  color: #ccc;
 }
 
 /* 確保 hover 不會覆蓋 active 樣式 */
