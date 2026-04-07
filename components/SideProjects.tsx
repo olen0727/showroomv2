@@ -75,8 +75,6 @@ const SideProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
       top: targetScrollY,
       behavior: 'smooth'
     });
-    
-    setActiveIndex(index);
   };
 
   return (
