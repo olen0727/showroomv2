@@ -11,7 +11,7 @@ export const careers: ICareer[] = [
     id: 'career01',
     role: 'web developer',
     time: '2010-2019',
-    company: ['飛象資訊', '臻澄設計', '鴻圖股份有限公司'],
+    company: ['飛象資訊', '臻澄設計', '鴻海集團-鴻圖股份有限公司'],
     responsibilities: ['網頁前後端開發', '效能優化與維護', '跨部門技術協作', '技術策略與概念驗證']
   },
   {

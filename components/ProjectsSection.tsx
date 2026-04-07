@@ -110,7 +110,13 @@ const ProjectsSection = () => {
   return (
     <section className={styles.projectsSection} id="projects">
       <div className={styles.sectionHeader}>
-        <h1 className={styles.title}>Projects</h1>
+        <div className={styles.titleWrapper}>
+          <h1 className={styles.title} data-text="Projects">Projects</h1>
+          <div className={styles.subtitleWrapper}>
+            <span className={styles.subtitleDash}></span>
+            <span className={styles.subtitle}>FEATURED WORKS</span>
+          </div>
+        </div>
       </div>
 
       <div className={styles.contentLayout}>

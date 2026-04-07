@@ -7,17 +7,116 @@
 
 .sectionHeader {
   width: 100%;
-  height: 15vh;
+  height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e0e0e0;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.subtitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.subtitleDash {
+  width: 40px;
+  height: 2px;
+  background-color: var(--accent, #f97316);
+  transform-origin: center;
+  animation: pulseDash 3s ease-in-out infinite;
+}
+
+@keyframes pulseDash {
+
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scaleX(1.5);
+    opacity: 1;
+  }
+}
+
+.subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  color: var(--accent, #f97316);
+  text-transform: uppercase;
+  animation: glowText 3s ease-in-out infinite;
+}
+
+@keyframes glowText {
+
+  0%,
+  100% {
+    text-shadow: 0 0 5px rgba(249, 115, 22, 0.2);
+  }
+
+  50% {
+    text-shadow: 0 0 15px rgba(249, 115, 22, 0.8);
+  }
 }
 
 .title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #333;
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  text-transform: uppercase;
+  margin: 0;
+  position: relative;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+}
+
+.title::before,
+.title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.title::before {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent, #f97316);
+  width: 100%;
+  clip-path: polygon(-135% 0%, -165% 100%, -15% 100%, 15% 0%, -135% 0%, 30% 0%, 0% 100%, 150% 100%, 180% 0%, 30% 0%);
+  animation: textScan 2s linear infinite;
+}
+
+.title::after {
+  color: var(--accent, #f97316);
+  width: 100%;
+  clip-path: polygon(-135% 0%, -165% 100%, -15% 100%, 15% 0%, -135% 0%, 30% 0%, 0% 100%, 150% 100%, 180% 0%, 30% 0%);
+  animation: textScan 2s linear infinite;
+  animation-delay: 0.15s;
+}
+
+@keyframes textScan {
+  0% {
+    clip-path: polygon(-135% 0%, -165% 100%, -15% 100%, 15% 0%, -135% 0%, 30% 0%, 0% 100%, 150% 100%, 180% 0%, 30% 0%);
+  }
+
+  100% {
+    clip-path: polygon(30% 0%, 0% 100%, 150% 100%, 180% 0%, 30% 0%, 195% 0%, 165% 100%, 315% 100%, 345% 0%, 195% 0%);
+  }
 }
 
 .contentLayout {
@@ -38,8 +137,9 @@
   background-color: #ffffff;
   z-index: 50;
   flex-shrink: 0;
-  align-self: flex-start; /* 關鍵設定：避免元素因 flex 被拉長而無法發生 sticky 效果 */
-  box-shadow: 4px 0 20px rgba(0,0,0,0.04);
+  align-self: flex-start;
+  /* 關鍵設定：避免元素因 flex 被拉長而無法發生 sticky 效果 */
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.04);
 }
 
 .sidebarLabel {
@@ -53,7 +153,8 @@
   text-transform: uppercase;
   font-weight: 900;
   white-space: nowrap;
-  min-height: 400px; /* 給打字特效足夠寬裕的空間 */
+  min-height: 400px;
+  /* 給打字特效足夠寬裕的空間 */
 }
 
 .sectionsContainer {
