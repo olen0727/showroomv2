@@ -16,6 +16,9 @@ const SideProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
         >
           <div className={styles.overlay} />
           <div className={styles.mainContent}>
+            <div className={styles.projectCoverWrapper}>
+              <img src={activeProject.image} alt={activeProject.name} className={styles.projectCover} />
+            </div>
             <h3 className={styles.projectTitle}>{activeProject.name}</h3>
             <p className={styles.projectDesc}>{activeProject.description}</p>
 
