@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   icons: {
     icon: isDev ? '/favicon-dev.svg' : '/favicon-prod.svg',
   },
+  openGraph: {
+    images: ['/cache.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/cache.jpg'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
