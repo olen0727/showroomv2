@@ -169,13 +169,13 @@
 }
 
 .secondaryLink {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: #fff;
+  color: #111;
+  border: 1px solid #fff;
 }
 
 .secondaryLink:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #f0f0f0;
   transform: translateY(-2px);
 }
 

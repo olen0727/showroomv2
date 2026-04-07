@@ -43,8 +43,8 @@ export const caseStudies: ICaseStudy[] = [
   },
   {
     id: 'case03',
-    name: '沒有商品、沒有商家、沒有消費者，然後呢？',
-    description: '五十趟漁村、六周建置、帶領一群連電腦都不太會用的漁民，把魚賣上網',
+    name: '商品、賣家、消費者，通通都沒有，怎辦？',
+    description: '五十趟漁村、六週建置、帶領一群連電腦都不太會用的漁民，把水產品賣上網',
     imagesFolder: '/projects/case03/fish_',
     imagesCount: 14,
     padZero: false,
@@ -63,7 +63,7 @@ export const sideProjects: ISideProject[] = [
   },
   {
     id: 'side02',
-    name: 'jobRadar-求職雷達',
+    name: 'jobRadar',
     description: 'JobRadar AI 是一款Chrome 擴充功能，專為現代求職者打造的「職缺分析與管理儀表板」。透過自動抓取主流求職平台（如 104、LinkedIn）的職缺內容，並結合主流三大大語言模型，系統能針對使用者的履歷進行深度的契合度分析（包含優缺點剖析與自動通勤時間估值）。專案採用 Local-First (本地優先) 架構，確保用戶資料隱私的同時，也透過 Supabase Edge Functions 提供流暢的免登入試用體驗，大幅提升求職效率與決策品質。',
     image: '/projects/sideprojects/side02.png',
     tags: ['Local-First 與隱私優先架構 (Zero-Backend)', '跨平台 DOM 爬蟲與智慧資料抽離', '多模組 AI 架構與token成本估算系統', 'React', 'Vite', 'Python', 'Supabase'],
