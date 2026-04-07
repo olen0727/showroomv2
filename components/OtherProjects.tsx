@@ -121,36 +121,38 @@ const OtherProjects = React.forwardRef<HTMLDivElement>((props, ref) => {
 
   return (
     <div className={styles.container} ref={ref} id="other-projects-section">
-      <div className={styles.gridContainer}>
-        {/* 中央資訊區，CSS Grid 屬性設定它佔據特定的中心欄位 */}
-        <div className={styles.centerInfoArea}>
-          {hoveredProject ? (
-            <div className={styles.infoContent}>
-              <h3 className={styles.infoTitle}>{hoveredProject.name}</h3>
-              <p className={styles.infoDesc}>{hoveredProject.description}</p>
-            </div>
-          ) : (
-            <div className={styles.infoPlaceholder}>
-              <h3 className={styles.infoTitle}>Other Projects</h3>
-              <p>Hover over a project to see details.</p>
-            </div>
-          )}
-        </div>
-
-        {/* 網格圖片項目 */}
-        {shuffledProjects.map((project, index) => (
-          <div
-            key={project.id}
-            className={styles.gridItem}
-            onMouseEnter={() => setHoveredProject(project)}
-            onMouseLeave={() => setHoveredProject(null)}
-            onClick={() => setSelectedIndex(index)}
-          >
-            <div className={styles.imageWrapper}>
-              <img src={project.image} alt={project.name} className={styles.projectImage} />
-            </div>
+      <div className={styles.stickyContent}>
+        <div className={styles.gridContainer}>
+          {/* 中央資訊區，CSS Grid 屬性設定它佔據特定的中心欄位 */}
+          <div className={styles.centerInfoArea}>
+            {hoveredProject ? (
+              <div className={styles.infoContent}>
+                <h3 className={styles.infoTitle}>{hoveredProject.name}</h3>
+                <p className={styles.infoDesc}>{hoveredProject.description}</p>
+              </div>
+            ) : (
+              <div className={styles.infoPlaceholder}>
+                <h3 className={styles.infoTitle}>Other Projects</h3>
+                <p>Hover over a project to see details.</p>
+              </div>
+            )}
           </div>
-        ))}
+
+          {/* 網格圖片項目 */}
+          {shuffledProjects.map((project, index) => (
+            <div
+              key={project.id}
+              className={styles.gridItem}
+              onMouseEnter={() => setHoveredProject(project)}
+              onMouseLeave={() => setHoveredProject(null)}
+              onClick={() => setSelectedIndex(index)}
+            >
+              <div className={styles.imageWrapper}>
+                <img src={project.image} alt={project.name} className={styles.projectImage} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* 燈光秀 / Modal 區塊，用 React Portal 獨立渲於文件最上層，遠離 Transform 影響 */}
