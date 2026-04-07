@@ -25,7 +25,7 @@ export const careers: ICareer[] = [
     id: 'career03',
     role: 'ux strategist (lead)',
     time: '2021-2024',
-    company: '方型糖創意數位有限公司',
+    company: '方形糖創意數位有限公司',
     responsibilities: ['售前策略與提案規劃', '利害關係人管理與工作坊引導', '用戶研究與設計驗證', '產品流程及架構設計']
   }
 ];
