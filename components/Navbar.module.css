@@ -36,39 +36,3 @@
   transition: background 0.2s;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: absolute;
-  right: 48px;
-}
-
-.ctaButton {
-  background: #f97316;
-  color: #fff;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  padding: 10px 22px;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
-  display: inline-block;
-}
-
-.muteBtn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.12);
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}

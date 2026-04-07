@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import styles from './Navbar.module.css'
 
@@ -8,7 +8,6 @@ const navLinks = ['About', 'Projects', 'Contact']
 
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null)
-  const [muted, setMuted] = useState(true)
 
   useEffect(() => {
     gsap.fromTo(
@@ -32,20 +31,6 @@ export default function Navbar() {
             {link.toUpperCase()}
           </button>
         ))}
-      </div>
-
-      {/* Right actions */}
-      <div className={styles.actions}>
-        <a href="#contact" className={styles.ctaButton}>
-          GET IN TOUCH
-        </a>
-        <button
-          onClick={() => setMuted((m) => !m)}
-          className={styles.muteBtn}
-          title={muted ? 'Unmute' : 'Mute'}
-        >
-          {muted ? '🔇' : '🔊'}
-        </button>
       </div>
     </nav>
   )
