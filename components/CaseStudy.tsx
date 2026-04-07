@@ -6,6 +6,7 @@ import { caseStudies, ICaseStudy } from '../data/projectsData';
 
 const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const images = Array.from({ length: study.imagesCount }).map((_, i) => {
     const num = study.padZero === false ? String(i + 1) : String(i + 1).padStart(2, '0');
@@ -16,12 +17,23 @@ const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
 
   const handlePrev = () => {
     if (!hasImages) return;
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentIndex((prev) => {
+      const nextIndex = prev - 1;
+      if (nextIndex <= 0) {
+        setIsExpanded(false);
+        return 0;
+      }
+      return nextIndex;
+    });
   };
 
   const handleNext = () => {
     if (!hasImages) return;
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    if (!isExpanded) {
+      setIsExpanded(true);
+      return;
+    }
+    setCurrentIndex((prev) => (prev === images.length - 1 ? prev : prev + 1));
   };
 
   return (
@@ -34,18 +46,22 @@ const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
           </div>
         </div>
 
-        <div className={`${styles.sliderArea} ${currentIndex > 0 ? styles.expanded : ''}`}>
-          <button className={styles.arrowBtnLeft} onClick={handlePrev} disabled={!hasImages}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+        <div className={`${styles.sliderArea} ${isExpanded ? styles.expanded : ''}`}>
+          {currentIndex > 0 && (
+            <button className={styles.arrowBtnLeft} onClick={handlePrev} disabled={!hasImages}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          )}
           
-          <button className={styles.arrowBtnRight} onClick={handleNext} disabled={!hasImages}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+          {(!isExpanded || currentIndex < images.length - 1) && (
+            <button className={styles.arrowBtnRight} onClick={handleNext} disabled={!hasImages}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          )}
           
           <div className={styles.sliderWindow}>
             <div 
@@ -72,7 +88,11 @@ const CaseStudyItem = ({ study }: { study: ICaseStudy }) => {
                 <button 
                   key={idx} 
                   className={`${styles.dot} ${idx === currentIndex ? styles.activeDot : ''}`} 
-                  onClick={() => setCurrentIndex(idx)}
+                  onClick={() => {
+                    setCurrentIndex(idx);
+                    if (idx === 0) setIsExpanded(false);
+                    else setIsExpanded(true);
+                  }}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}
