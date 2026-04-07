@@ -33,6 +33,20 @@
   color: #1a1a1a;
   padding: 6px 16px;
   border-radius: 9999px;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
+}
+
+.navLink:hover {
+  background: rgba(0, 0, 0, 0.05); /* 輕微灰底 */
+}
+
+.navLinkActive {
+  background: #f97316; /* 品牌橘色 */
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.navLinkActive:hover {
+  background: #ea580c;
 }
 

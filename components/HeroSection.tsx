@@ -26,7 +26,7 @@ export default function HeroSection() {
   const scrollOffsetRef = useRef({ offset: 0 })
 
   return (
-    <section className={styles.hero}>
+    <section id="hero" className={styles.hero}>
       <Scene3D scrollOffsetRef={scrollOffsetRef} />
       <CharacterStatsOverlay scrollOffsetRef={scrollOffsetRef} />
       <RoleCardsOverlay scrollOffsetRef={scrollOffsetRef} />
