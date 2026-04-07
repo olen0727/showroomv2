@@ -28,7 +28,7 @@ export interface IOtherProject {
 export const caseStudies: ICaseStudy[] = [
   {
     id: 'case01',
-    name: '一個專案，七個甲方，你聽過明星大亂鬥嗎？',
+    name: '一個專案，七個甲方！你看過明星大亂鬥嗎？',
     description: '一套系統馴服七頭怪獸，從「誰都不滿意」到「88% 滿意度」的求生記',
     imagesFolder: '/projects/case01/tree_',
     imagesCount: 10,
@@ -129,7 +129,7 @@ export const otherProjects: IOtherProject[] = [
   {
     id: 'other06',
     name: '台北市政府-4D城市儀表板',
-    description: 'A secure mobile app to track multiple crypto wallets to show real-time profit and loss metrics with beautiful charts.',
+    description: '3D+時間軸方式呈現台北市的各項建設與數據指標發展與變遷',
     image: '/projects/otherprojects/other_pic_10.png',
     tags: ['網站開發', '資料視覺化', '互動設計', 'Three.js', 'UI/UX'],
   },
