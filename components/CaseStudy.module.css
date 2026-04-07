@@ -4,13 +4,21 @@
   flex-direction: column;
 }
 
+.itemWrapper {
+  height: 150vh;
+  position: relative;
+}
+
 .itemContainer {
   display: flex;
   height: 100vh;
   width: 100%;
-  position: relative;
+  position: sticky;
+  top: 0;
   border-bottom: 1px solid #e0e0e0;
   box-sizing: border-box;
+  background-color: #FAFAFA; /* 融合整體背景色 */
+  z-index: 1;
 }
 
 .stickyLabelWrapper {
