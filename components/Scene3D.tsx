@@ -55,7 +55,7 @@ export default function Scene3D({ scrollOffsetRef }: Scene3DProps) {
               <CharacterModel />
               <FloatingElements />
 
-              <Environment preset="apartment" />
+              <Environment files="/textures/lebombo_1k.hdr" />
             </ScrollProgressProvider>
           </ScrollControls>
         </Suspense>
