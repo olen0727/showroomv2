@@ -15,15 +15,6 @@ const ROLES = [
     video: '/video/fullstackvideo.mp4',
   },
   {
-    id: 'ux',
-    title: 'UX Strategist',
-    subtitle: '以同理心洞察需求的策略師',
-    tags: ['工作坊', '用戶研究', '競品分析', '市場洞察', '服務設計', '原型設計', '商務提案'],
-    cardClass: 'cardUx' as const,
-    tagClass: 'tagUx' as const,
-    video: '/video/uxe.mp4',
-  },
-  {
     id: 'pm',
     title: 'Project Manager',
     subtitle: '優先級決策與管理的專案舵手',
@@ -31,6 +22,15 @@ const ROLES = [
     cardClass: 'cardPm' as const,
     tagClass: 'tagPm' as const,
     video: '/video/pm.mp4',
+  },
+  {
+    id: 'ux',
+    title: 'UX Strategist',
+    subtitle: '以同理心洞察需求的策略師',
+    tags: ['工作坊', '用戶研究', '競品分析', '市場洞察', '服務設計', '原型設計', '商務提案'],
+    cardClass: 'cardUx' as const,
+    tagClass: 'tagUx' as const,
+    video: '/video/uxe.mp4',
   },
 ]
 

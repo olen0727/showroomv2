@@ -32,6 +32,7 @@ export const caseStudies: ICaseStudy[] = [
     description: '一套系統馴服七頭怪獸，從「誰都不滿意」到「88% 滿意度」的求生記',
     imagesFolder: '/projects/case01/tree_',
     imagesCount: 10,
+    padZero: false,
   },
   {
     id: 'case02',
